@@ -86,24 +86,30 @@ class GalileoPlatform(peripheral.Peripheral):
       self._spi = mraa.Spi(1);
       
       if ("frequency" in params):
+        pr.Dbg("Frequency found: %d" % params['frequency']);
         r = self._spi.frequency(params['frequency']);
       else:
         r = self._spi.frequency(5 * (10 ** 6));
         
+      pr.Dbg("Set freq: ret = %d" % r);
         
       if (params['mode'] == 0):
-        self._spi.mode(mraa.SPI_MODE0);
+        r = self._spi.mode(mraa.SPI_MODE0);
       elif (params['mode'] == 1):
-        self._spi.mode(mraa.SPI_MODE1);
+        r = self._spi.mode(mraa.SPI_MODE1);
       elif (params['mode'] == 2):
-        self._spi.mode(mraa.SPI_MODE2);
+        r = self._spi.mode(mraa.SPI_MODE2);
       elif (params['mode'] == 3):
-        self._spi.mode(mraa.SPI_MODE3);
+        r = self._spi.mode(mraa.SPI_MODE3);
         
+      pr.Dbg("Mode set: ret = %d" % r);
       
       if ("lsbmode" in params):
-        self._spi.lsbmode(params['lsbmode']);
-
+        r = self._spi.lsbmode(params['lsbmode']);
+        pr.Dbg("LSB: ret = %d" % r);
+        
+      #r = self._spi.writeByte(0x0c);
+      #pr.Dbg("Test: %d" % r);
       return True;
         
     # SPI functions
