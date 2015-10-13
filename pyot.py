@@ -245,6 +245,8 @@ def main(argv):
   # Create producer and consumer threads
   proThread = threading.Thread(target=proTask, args=(config, chan, timer));
   conThread = threading.Thread(target=conTask, args=(config, chan));
+  proThread.daemon = True;
+  conThread.daemon = True;
   
   prMsg("Starting threads...");
   
