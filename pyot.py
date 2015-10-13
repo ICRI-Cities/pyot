@@ -106,7 +106,7 @@ def conTask(config, channel):
     if (iot == None):
       prWrn("Backend '%s'('%s') was not found" % (i['name'], i['path']));
     else:
-      iotBackends.append({'comm': iot, 'idx': idx);
+      iotBackends.append({'comm': iot, 'idx': idx});
       idx += 1;
       
   if (len(iotBackends) == 0):
