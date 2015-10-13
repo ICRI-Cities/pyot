@@ -8,7 +8,7 @@
 
 import importlib
 from abc import *
-from pyotlib.classes.tree import Endpoints
+from pyotlib.tree import Endpoints
 
 # Base class for peripheral objects, includes a bunch of stuff for dealing with the tree structure
 class Peripheral:
