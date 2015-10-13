@@ -34,32 +34,32 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
       global platform;
      
       # As the root sensor, you need to grab the 
-      self.__spi = platform.find(params['port']);
+      self._spi = platform.find(params['port']);
       
-      if (self.__spi == None):
+      if (self._spi == None):
         return;
       
-      if (not(self.__spi.request({'frequency': 300000, 'mode': 1}))):
-        self.__spi = None;
+      if (not(self._spi.request({'frequency': 300000, 'mode': 1}))):
+        self._spi = None;
         return;
         
       return;
     
     def init(self, params):
       # Turn on the fan
-      if (self.__spi != None):
-        self.__spi.transfer(0x0C);
+      if (self._spi != None):
+        self._spi.transfer(0x0C);
         
       return;
       
     def read(self):
-      if (self.__spi != None):
-        self.__spi.transfer(0x30);
+      if (self._spi != None):
+        self._spi.transfer(0x30);
         time.sleep(0.006);
         
         v = [];
         for i in xrange(62):
-          v.append(self.__spi.transfer(0xC0));
+          v.append(self._spi.transfer(0xC0));
           time.sleep(0.000008);
         
         pm10 = self.bytelistToFloat(v[50:54]);
@@ -76,8 +76,8 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
     
     def connect(self, params):
       global platform;
-      self.__root = platform.find(".:root");
+      self._root = platform.find(".:root");
       return;
     
     def read(self):
-      return self.__root.read()[self.name()];
+      return self._root.read()[self.name()];

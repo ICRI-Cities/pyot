@@ -13,34 +13,34 @@ import threading
 class Channel(object):
 
   def __init__(self):
-    self.__queue = Queue.Queue(2048*1024);
-    self.__lock = threading.Lock();
+    self._queue = Queue.Queue(2048*1024);
+    self._lock = threading.Lock();
     
   def lock(self):
-    self.__lock.acquire();
+    self._lock.acquire();
     return;
 
   def unlock(self):
-    self.__lock.release();
+    self._lock.release();
     return;    
   
   def empty(self):
-    return self.__queue.empty();
+    return self._queue.empty();
     
   def full(self):
-    return self.__queue.full();
+    return self._queue.full();
     
   def put(self, i):
-    if (self.__queue.full()):
-      self.__queue.get();
-    self.__queue.put(i);
+    if (self._queue.full()):
+      self._queue.get();
+    self._queue.put(i);
     return;
     
   def get(self):
-    if (self.__queue.empty()):
+    if (self._queue.empty()):
       return None;
     else:
-      return self.__queue.get();
+      return self._queue.get();
       
   def size(self):
-    return self.__queue.qsize();
+    return self._queue.qsize();

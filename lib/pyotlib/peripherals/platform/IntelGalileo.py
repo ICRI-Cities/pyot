@@ -42,7 +42,7 @@ class GalileoPlatform(peripheral.Peripheral):
       
     # Build function (time to create stuff)
     def build(self, params):
-      self.__gpio = mraa.Gpio(self._pin);
+      self._gpio = mraa.Gpio(self._pin);
       return;
       
     # Request function
@@ -52,32 +52,32 @@ class GalileoPlatform(peripheral.Peripheral):
     
       if ("mode" in params):
         if (params['mode'] == "PULLDOWN"):
-          self.__gpio.mode(mraa.MODE_PULLDOWN);
+          self._gpio.mode(mraa.MODE_PULLDOWN);
         elif (params['mode'] == "PULLUP"):
-          self.__gpio.mode(mraa.MODE_PULLUP);
+          self._gpio.mode(mraa.MODE_PULLUP);
           
           
       if (("dir" in params) and (params['dir'] == "OUT")):
-        self.__gpio.dir(mraa.DIR_OUT);
+        self._gpio.dir(mraa.DIR_OUT);
       else:
-        self.__gpio.dir(mraa.DIR_IN);
+        self._gpio.dir(mraa.DIR_IN);
         
       return True;
     
     # GPIO functions    
     def write(self, val):
-      self.__gpio.write(val);
+      self._gpio.write(val);
       return;
       
     def read(self):
-      return self.__gpio.read();
+      return self._gpio.read();
       
   # SPI Class for Galileo (uses mraa to do everything)
   class SPI(interface.SPI):
   
     # Build function, creates Spi object
     def build(self, params):
-      self.__spi = mraa.Spi(1);
+      self._spi = mraa.Spi(1);
       return;
       
     # Request function
@@ -86,25 +86,25 @@ class GalileoPlatform(peripheral.Peripheral):
         return False;
       
       if ("frequency" in params):
-        self.__spi.frequency(params['frequency']);
+        self._spi.frequency(params['frequency']);
       else:
-        self.__spi.frequency(5 * (10 ** 6));
+        self._spi.frequency(5 * (10 ** 6));
         
       if (params['mode'] == 0):
-        self.__spi.mode(mraa.SPI_MODE0);
+        self._spi.mode(mraa.SPI_MODE0);
       elif (params['mode'] == 1):
-        self.__spi.mode(mraa.SPI_MODE1);
+        self._spi.mode(mraa.SPI_MODE1);
       elif (params['mode'] == 2):
-        self.__spi.mode(mraa.SPI_MODE2);
+        self._spi.mode(mraa.SPI_MODE2);
       elif (params['mode'] == 3):
-        self.__spi.mode(mraa.SPI_MODE3);
+        self._spi.mode(mraa.SPI_MODE3);
         
       if ("lsbmode" in params):
-        self.__spi.lsbmode(params['lsbmode']);
+        self._spi.lsbmode(params['lsbmode']);
         
       return True;
         
     # SPI functions
     def transfer(self, val):
-      return self.__spi.writeByte(val);
+      return self._spi.writeByte(val);
                     

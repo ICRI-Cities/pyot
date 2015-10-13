@@ -11,12 +11,12 @@ class Pins(object):
   
   # Create object to keep track of peripheral pins
   def __init__(self, pinlist):
-    self.__freepins = set(pinlist);
+    self._freepins = set(pinlist);
     
   # Request pins
   def request(self, obj):
-    if (obj.__pinSet.issubset(self.__freepins)):
-      obj.__pinSet.__freepins = self.__freepins.difference(obj.__pinSet);
+    if (obj._pinSet.issubset(self._freepins)):
+      obj._pinSet._freepins = self._freepins.difference(obj._pinSet);
       return True;
     
     return False;
@@ -24,5 +24,5 @@ class Pins(object):
   # Assign pins to object
   def assign(self, obj, pins):
     obj.pins = self;
-    obj.__pinSet = set(pins);
+    obj._pinSet = set(pins);
     return;

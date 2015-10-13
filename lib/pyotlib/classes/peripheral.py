@@ -14,21 +14,21 @@ from pyotlib.tree import Endpoints
 class Peripheral(object):
   
   def __init__(self, params):
-    self.__path = params['path'];
-    self.__parent = params['parent'];
-    self.__name = params['name'];
+    self._path = params['path'];
+    self._parent = params['parent'];
+    self._name = params['name'];
     
     # Parse params
     if ("." in params['params']):
-      self.__params = params['params']['.'];
+      self._params = params['params']['.'];
     else:
-      self.__params = {'build': {}, 'connect': {}, 'init': {}};
+      self._params = {'build': {}, 'connect': {}, 'init': {}};
     
     # Create endpoints
     self.endpoints = Endpoints(self, self.fullname(), params['params']);
     
     # Create all peripherals    
-    self.__peripherals = []
+    self._peripherals = []
     for p in params['peripherals']:
       module = importlib.import_module("pyotlib.peripherals." + p['class']);
       newParams = dict(p);
@@ -37,14 +37,14 @@ class Peripheral(object):
       self.__peripherals.append(module.create(newParams));
   
   # Recursive find method  
-  def __find(self, path):
+  def _find(self, path):
     # Take off the leading /
     p = path[1:];
     
     # If there is no longer a / in the path, we are the end (maybe)
     if (not("/" in p)):
       parts = p.split(":");
-      if ((parts[0] == self.__name) or (parts[0] == ".")):
+      if ((parts[0] == self._name) or (parts[0] == ".")):
         if (len(parts) == 1):
           return self;
         else:
@@ -52,27 +52,27 @@ class Peripheral(object):
     else:
       # We are not the endpoint, strip off ourself (also checking if we were the proper place to go)
       parts = p.split("/");
-      if ((parts[0] == self.__name) or (parts[0] == ".") or (parts[0] == "..") or (parts[0] == "")):
+      if ((parts[0] == self._name) or (parts[0] == ".") or (parts[0] == "..") or (parts[0] == "")):
         newPath = p[len(parts[0]):];
-        if ((parts[1] == self.__name) or (parts[1] == ".") or (parts[1] == "")):
-          return self.__find(newPath);
+        if ((parts[1] == self._name) or (parts[1] == ".") or (parts[1] == "")):
+          return self._find(newPath);
         elif (parts[1] == ".."):
-          return self.__parent.__find(newPath);
+          return self._parent._find(newPath);
         else:
-          for peripheral in self.__peripherals:
-            if (parts[1] == peripheral.__name):
-              return peripheral.__find(newPath);
+          for peripheral in self._peripherals:
+            if (parts[1] == peripheral._name):
+              return peripheral._find(newPath);
     
     return None;
     
   def name(self):
-    return self.__name;
+    return self._name;
    
   def path(self):
-    return self.__path;
+    return self._path;
     
   def fullname(self):
-    return (self.__path + "/" + self.__name); 
+    return (self._path + "/" + self._name); 
      
   #Phases
   
@@ -80,35 +80,35 @@ class Peripheral(object):
     return;
     
   def _build(self):
-    self.build(self.__params['build']);
+    self.build(self._params['build']);
     self.endpoints.build();
     
-    for p in self.__peripherals:
-      p.__build();
+    for p in self._peripherals:
+      p._build();
       
     return;
     
   def connect(self, params):
     return;
     
-  def __connect(self):
-    self.build(self.__params['connect']);
+  def _connect(self):
+    self.build(self._params['connect']);
     self.endpoints.connect();
     
-    for p in self.__peripherals:
-      p.__connect();
+    for p in self._peripherals:
+      p._connect();
       
     return;
     
   def init(self, params):
     return;
     
-  def __init(self):
-    self.build(self.__params['init']);
+  def _init(self):
+    self.build(self._params['init']);
     self.endpoints.init();
     
-    for p in self.__peripherals:
-      p.__init();
+    for p in self._peripherals:
+      p._init();
       
     return;
 
@@ -116,23 +116,23 @@ class Peripheral(object):
 class Endpoint(object):
   
   def __init__(self, parent, path, name, params):
-    self.__parent = parent;
-    self.__path = path;
-    self.__name = name;
-    self.__params = params;
+    self._parent = parent;
+    self._path = path;
+    self._name = name;
+    self._params = params;
     
   def name(self):
-    return self.__name;
+    return self._name;
     
   def path(self):
-    return self.__path;
+    return self._path;
     
   def fullname(self):
-    return (self.__path + ":" + self.__name);
+    return (self._path + ":" + self._name);
     
   def __find(self, path):
-    return self.__parent.__find(path);
-  
+    return self._parent._find(path);
+
   def build(self, params):
     return;
     

@@ -16,68 +16,68 @@ class Tree(object):
     newParams = dict(params);
     newParams['path'] = "/";
     newParams['parent'] = None;
-    self.__head = module.create(newParams);
+    self._head = module.create(newParams);
     
   # Function for running the phases
   def build(self):
-    self.__head._build();
+    self._head._build();
     return;
   
   def connect(self):
-    self.__head.__connect();
+    self._head._connect();
     return;
     
   def init(self):
-    self.__head.__init();
+    self._head._init();
     return;
     
   # Return the node described by path
   def find(self, obj, path):
     if (path[0] != "/"):
-      return obj.__find("/" + path);
+      return obj._find("/" + path);
     else:      
-      return self.__head.__find(path);
+      return self._head._find(path);
   
 class Endpoints(object):
 
   def __init__(self, parent, path, params):
-    self.__parent = parent;
-    self.__path = path;
-    self.__params = params;
+    self._parent = parent;
+    self._path = path;
+    self._params = params;
     
-    self.__endpoints = dict();
+    self._endpoints = dict();
     
   def add(self, name, type):
-    if (name in self.__endpoints):
+    if (name in self._endpoints):
       return None;
       
-    if (name in self.__params):
-      params = self.__params[name];
+    if (name in self._params):
+      params = self._params[name];
     else:
       params = {'build': {}, 'connect': {}, 'init': {}};
       
-    self.__endpoints[name] = type(self.__parent, self.__path, name, params);
+    self._endpoints[name] = type(self._parent, self._path, name, params);
     
-    return self.__endpoints[name];
+    return self._endpoints[name];
     
   def find(self, name):
-   if (name in self.__endpoints):
-     return self.__endpoints[name];
+   if (name in self._endpoints):
+     return self._endpoints[name];
      
    return None;
     
   # Phases
   def build(self):
-    for ep in self.__endpoints:
-      self.__endpoints[ep].build(self.__endpoints[ep].__params['build']);
+    for ep in self._endpoints:
+      self._endpoints[ep].build(self._endpoints[ep]._params['build']);
     return;
     
   def connect(self):
-    for ep in self.__endpoints:
-      self.__endpoints[ep].connect(self.__endpoints[ep].__params['connect']);
+    for ep in self._endpoints:
+      self._endpoints[ep].connect(self.__endpoints[ep]._params['connect']);
     return;
     
   def init(self):
-    for ep in self.__endpoints:
-      self.__endpoints[ep].init(self.__endpoints[ep].__params['init']);
+    for ep in self._endpoints:
+      self._endpoints[ep].init(self._endpoints[ep]._params['init']);
     return;
