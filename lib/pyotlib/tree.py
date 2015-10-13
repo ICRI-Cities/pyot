@@ -8,6 +8,8 @@
 
 import importlib
 
+import pyotlib.printlib as pr
+
 class Tree(object):
   
   def __init__(self, params):

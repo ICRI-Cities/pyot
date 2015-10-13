@@ -12,7 +12,7 @@ import time
 import struct
 
 from pyotlib.classes import *
-from pyotlib.printlib import *
+import pyotlib.printlib as pr
 
 # Function to make peripheral
 def create(params):

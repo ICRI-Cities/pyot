@@ -7,6 +7,7 @@
 #
 
 from pyotlib.classes import *
+import pyotlib.printlib as pr
 
 # Function to make peripheral
 def create(params):
@@ -25,6 +26,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       return;
     
     def send(self, val):
+      print(val);
       return True;
     
     def poll(self):

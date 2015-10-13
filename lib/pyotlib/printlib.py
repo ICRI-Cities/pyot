@@ -8,26 +8,26 @@
 
 import traceback
 
-debug = [False];
+debug = False;
 
 # Print commands
-def prMsg(s):
+def Msg(s):
   print("-I- %s" % s);
   return;
   
-def prWrn(s):
+def Wrn(s):
   print("-W- %s" % s);
   return;
   
-def prErr(s):
+def Err(s):
   global debug;
   print("-E- %s" % s);
-  if (debug[0]):
+  if (debug):
     traceback.print_exc();
   return;
   
-def prDbg(s):
+def Dbg(s):
   global debug;
-  if (debug[0]):
+  if (debug):
     print("-D- %s" % s);
   return;

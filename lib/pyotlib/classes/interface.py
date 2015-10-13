@@ -8,6 +8,7 @@
 
 from abc import *
 from pyotlib.classes.peripheral import Port
+import pyotlib.printlib as pr
 
 # Base class UART ports
 class UART(Port):

@@ -7,7 +7,7 @@
   "sensors": [
     {
       "name": "as_opc_n1",
-      "path": "/galileo/particulate:sensor"
+      "path": "/galileo/particulate:pm10"
     }
   ],
   
