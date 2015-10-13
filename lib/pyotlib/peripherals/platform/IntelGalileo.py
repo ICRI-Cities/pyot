@@ -79,7 +79,7 @@ class GalileoPlatform(peripheral.Peripheral):
   
     # Build function, creates Spi object
     def build(self, params):
-      self._spi = mraa.Spi(1);
+      
       pr.Dbg("Got SPI: %s" % str(self._spi));
       return;
       
@@ -87,6 +87,8 @@ class GalileoPlatform(peripheral.Peripheral):
     def request(self, params):
       if (not(self.pins.request(self))):
         return False;
+        
+      self._spi = mraa.Spi(1);
       
       if ("frequency" in params):
         pr.Dbg("Frequency found: %d" % params['frequency']);
@@ -111,7 +113,7 @@ class GalileoPlatform(peripheral.Peripheral):
         r = self._spi.lsbmode(params['lsbmode']);
         pr.Dbg("LSB: ret = %d" % r);
         
-      r = self._spi.writeByte(0x0c);
+      r = self._spi.write(0x0c);
       pr.Dbg("Test: %d" % r);
       return True;
         
