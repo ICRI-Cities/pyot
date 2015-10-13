@@ -89,6 +89,7 @@ class GalileoPlatform(peripheral.Peripheral):
         return False;
       
       if ("frequency" in params):
+        pr.Dbg("Frequency found: %d" % params['frequency']);
         r = self._spi.frequency(params['frequency']);
       else:
         r = self._spi.frequency(5 * (10 ** 6));
