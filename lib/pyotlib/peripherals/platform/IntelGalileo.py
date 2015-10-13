@@ -79,8 +79,8 @@ class GalileoPlatform(peripheral.Peripheral):
   
     # Build function, creates Spi object
     def build(self, params):
-      
-      #pr.Dbg("Got SPI: %s" % str(self._spi));
+      self._spi = mraa.Spi(1);
+      pr.Dbg("Got SPI");
       return;
       
     # Request function
@@ -88,7 +88,7 @@ class GalileoPlatform(peripheral.Peripheral):
       if (not(self.pins.request(self))):
         return False;
         
-      self._spi = mraa.Spi(1);
+      #self._spi = mraa.Spi(1);
       
       if ("frequency" in params):
         pr.Dbg("Frequency found: %d" % params['frequency']);
