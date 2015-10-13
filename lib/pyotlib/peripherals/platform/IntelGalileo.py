@@ -99,7 +99,6 @@ class GalileoPlatform(peripheral.Peripheral):
       if (params['mode'] == 0):
         r = self._spi.mode(mraa.SPI_MODE0);
       elif (params['mode'] == 1):
-        pr.Dbg("Right mode");
         r = self._spi.mode(mraa.SPI_MODE1);
       elif (params['mode'] == 2):
         r = self._spi.mode(mraa.SPI_MODE2);
@@ -112,6 +111,8 @@ class GalileoPlatform(peripheral.Peripheral):
         r = self._spi.lsbmode(params['lsbmode']);
         pr.Dbg("LSB: ret = %d" % r);
         
+      r = self._spi.writeByte(0x0c);
+      pr.Dbg("Test: %d" % r);
       return True;
         
     # SPI functions
