@@ -92,7 +92,7 @@ class Peripheral(object):
     return;
     
   def _connect(self):
-    self.build(self._params['connect']);
+    self.connect(self._params['connect']);
     self.endpoints.connect();
     
     for p in self._peripherals:
@@ -104,7 +104,7 @@ class Peripheral(object):
     return;
     
   def _init(self):
-    self.build(self._params['init']);
+    self.init(self._params['init']);
     self.endpoints.init();
     
     for p in self._peripherals:
