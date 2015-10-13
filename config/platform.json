@@ -1,0 +1,64 @@
+{
+  "threadRestartRate": 3600,
+  "sensorSampleRate": 120,
+  "iotSendRate": 120,
+  "timer": "default",
+  
+  "sensors": [
+    {
+      "name": "as_opc_n1",
+      "path": "/galileo/particulate:sensor"
+    }
+  ],
+  
+  "iot": [
+    {
+      "name": "enableiot",
+      "path": "/galileo/enableiot:mqtt"
+    }
+  ],
+  
+  "platform": {
+    "name": "galileo",
+    "class": "platform.IntelGalileo",
+    "params": {
+      ".": {
+        "build": {},
+        "connect": {},
+        "init": {}
+      }
+    },
+    "peripherals": [
+      {
+        "name": "particulate",
+        "class": "sensor.AlphaSenseOPC_N1",
+        "params": {
+          "sensor": {
+            "build": {},
+            "connect": {
+              "port": "../.:spi1"
+            },
+            "init": {}
+          }
+        },
+        "peripherals": []
+      },
+      {
+        "name": "enableiot",
+        "class": "backend.IntelIoTAnalytics",
+        "params": {
+          "mqtt": {
+            "build": {},
+            "connect": {},
+            "init": {
+              "broker": "broker.us.enableiot.com",
+              "port": 8883,
+              "qos": 1
+            }
+          }
+        },
+        "peripherals": []
+      }
+    ]
+  }
+}
