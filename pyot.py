@@ -156,7 +156,6 @@ def conTask(config, channel):
 # Main function
 def main(argv):
   global platform;
-  global debug;
   
   # Parse arguments
   try:
