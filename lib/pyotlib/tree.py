@@ -66,6 +66,7 @@ class Endpoints(object):
     
   def find(self, name):
    if (name in self._endpoints):
+     pr.Dbg("Found: %s" % name);
      return self._endpoints[name];
      
    return None;

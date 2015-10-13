@@ -54,8 +54,10 @@ class Peripheral(object):
       pr.Dbg("No more '/', checking self (%s)" % str(parts));
       if ((parts[0] == self._name) or (parts[0] == ".")):
         if (len(parts) == 1):
+          pr.Dbg("Found: me!");
           return self;
         else:
+          pr.Dbg("In endpoints...");
           return self.endpoints.find(parts[1]);
     else:
       # We are not the endpoint, strip off ourself (also checking if we were the proper place to go)
