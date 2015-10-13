@@ -80,7 +80,7 @@ class GalileoPlatform(peripheral.Peripheral):
     # Build function, creates Spi object
     def build(self, params):
       
-      pr.Dbg("Got SPI: %s" % str(self._spi));
+      #pr.Dbg("Got SPI: %s" % str(self._spi));
       return;
       
     # Request function
