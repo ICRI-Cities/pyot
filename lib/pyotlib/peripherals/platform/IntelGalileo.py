@@ -91,18 +91,16 @@ class GalileoPlatform(peripheral.Peripheral):
         self._spi.frequency(5 * (10 ** 6));
         
       if (params['mode'] == 0):
-        r = self._spi.mode(mraa.SPI_MODE0);
+        self._spi.mode(mraa.SPI_MODE0);
       elif (params['mode'] == 1):
-        r = self._spi.mode(mraa.SPI_MODE1);
+        self._spi.mode(mraa.SPI_MODE1);
       elif (params['mode'] == 2):
-        r = self._spi.mode(mraa.SPI_MODE2);
+        self._spi.mode(mraa.SPI_MODE2);
       elif (params['mode'] == 3):
-        r = self._spi.mode(mraa.SPI_MODE3);
-        
-      pr.Dbg("Mode set: ret = %d" % r);
+        self._spi.mode(mraa.SPI_MODE3);
       
       if ("lsbmode" in params):
-        r = self._spi.lsbmode(params['lsbmode']);
+        self._spi.lsbmode(params['lsbmode']);
         
       #r = self._spi.writeByte(0x0c);
       #pr.Dbg("Test: %d" % r);
