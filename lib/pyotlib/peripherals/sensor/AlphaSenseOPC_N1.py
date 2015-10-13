@@ -47,12 +47,10 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
     
     def init(self, params):
       # Turn on the fan
-      return;
       if (self._spi != None):
-        for i in xrange(5):
-          pr.Dbg("OPC - N1: Turning on fan... (try: %d)" % i);
-          r = self._spi.transfer(0x0C);
-          pr.Dbg("OPC - N1: ret = %d" % r);
+        pr.Dbg("OPC - N1: Turning on fan...");
+        r = self._spi.transfer(0x0C);
+        pr.Dbg("OPC - N1: ret = %d" % r);
 
       return;
       
