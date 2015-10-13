@@ -14,9 +14,14 @@ class Pins(object):
     self._freepins = set(pinlist);
     
   # Request pins
-  def request(self, obj):
-    if (obj._pinSet.issubset(self._freepins)):
-      obj._pinSet._freepins = self._freepins.difference(obj._pinSet);
+  def request(self, obj, pins=[]):
+    if (len(pins) == 0):
+      p = obj._pinSet;
+    else:
+      p = set(pins);
+      
+    if (p.issubset(self._freepins)):
+      obj._pinSet._freepins = self._freepins.difference(p);
       return True;
     
     return False;
@@ -26,3 +31,7 @@ class Pins(object):
     obj.pins = self;
     obj._pinSet = set(pins);
     return;
+    
+  # Get the pins for the currently assigned object (as a list)
+  def getPins(self, obj):
+    return list(obj._pinSet);

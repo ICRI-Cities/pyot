@@ -42,7 +42,7 @@ class GalileoPlatform(peripheral.Peripheral):
       
     # Build function (time to create stuff)
     def build(self, params):
-      self._gpio = mraa.Gpio(self._pin);
+      self._gpio = mraa.Gpio(self.pins.getPins(self)[0]);
       return;
       
     # Request function
