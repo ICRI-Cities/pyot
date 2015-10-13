@@ -20,7 +20,7 @@ class Tree(object):
     
   # Function for running the phases
   def build(self):
-    self.__head.__build();
+    self.__head._build();
     return;
   
   def connect(self):

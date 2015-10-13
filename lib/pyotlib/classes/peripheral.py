@@ -79,11 +79,10 @@ class Peripheral(object):
   def build(self, params):
     return;
     
-  def __build(self):
+  def _build(self):
     self.build(self.__params['build']);
     self.endpoints.build();
     
-       
     for p in self.__peripherals:
       p.__build();
       
@@ -96,7 +95,6 @@ class Peripheral(object):
     self.build(self.__params['connect']);
     self.endpoints.connect();
     
-       
     for p in self.__peripherals:
       p.__connect();
       
