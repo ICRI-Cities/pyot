@@ -8,7 +8,7 @@
 
 import importlib
 
-class Tree:
+class Tree(object):
   
   def __init__(self, params):
     # Create platform
@@ -38,7 +38,7 @@ class Tree:
     else:      
       return self.__head.__find(path);
   
-class Endpoints:
+class Endpoints(object):
 
   def __init__(self, parent, path, params):
     self.__parent = parent;

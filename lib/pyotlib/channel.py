@@ -10,7 +10,7 @@ import Queue
 import threading
 
 # A circular buffer of values between the sender and receiver
-class Channel:
+class Channel(object):
 
   def __init__(self):
     self.__queue = Queue.Queue(2048*1024);

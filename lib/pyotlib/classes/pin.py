@@ -7,7 +7,7 @@
 #
 
 # Class for handling pins for peripherals
-class Pins:
+class Pins(object):
   
   # Create object to keep track of peripheral pins
   def __init__(self, pinlist):

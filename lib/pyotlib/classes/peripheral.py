@@ -11,7 +11,7 @@ from abc import *
 from pyotlib.tree import Endpoints
 
 # Base class for peripheral objects, includes a bunch of stuff for dealing with the tree structure
-class Peripheral:
+class Peripheral(object):
   
   def __init__(self, params):
     self.__path = params['path'];
@@ -115,7 +115,7 @@ class Peripheral:
     return;
 
 # Endpoint base class
-class Endpoint:
+class Endpoint(object):
   
   def __init__(self, parent, path, name, params):
     self.__parent = parent;
