@@ -37,7 +37,7 @@ class Tree(object):
   # Return the node described by path
   def find(self, path, obj=None):
     if ((obj != None) and (path[0] != "/")):
-      return obj._find("/" + obj.name() + "/" + path);
+      return self._head._find(obj.path() + path);
     elif (path[0] == "/"):
       return self._head._find(path);
     return None;
