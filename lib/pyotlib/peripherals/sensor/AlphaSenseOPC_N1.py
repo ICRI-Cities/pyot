@@ -33,11 +33,13 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
     def connect(self, params):
       # As the root sensor, you need to grab the 
       self._spi = self.platform.find(params['port'], self);
-      
+
       if (self._spi == None):
+        pr.Wrn("OPC - N1: Failed to find SPI port '%s'" % params['port']);
         return;
       
       if (not(self._spi.request({'frequency': 300000, 'mode': 1}))):
+        pr.Wrn("OPC - N1: Failed to connect to given SPI port");
         self._spi = None;
         return;
         
