@@ -71,7 +71,7 @@ class Peripheral:
   def path(self):
     return self.__path;
     
-  def fullname(self);
+  def fullname(self):
     return (self.__path + "/" + self.__name); 
      
   #Phases
