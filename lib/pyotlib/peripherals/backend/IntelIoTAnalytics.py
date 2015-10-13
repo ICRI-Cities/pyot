@@ -6,7 +6,6 @@
 # 12-10-2015
 #
 
-from pyotlib.platform import *
 from pyotlib.classes import *
 
 # Function to make peripheral

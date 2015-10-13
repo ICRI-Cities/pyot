@@ -18,6 +18,9 @@ class Peripheral(object):
     self._parent = params['parent'];
     self._name = params['name'];
     
+    # Set the platform variable
+    self.platform = params['platform'];
+    
     # Parse params
     if ("." in params['params']):
       self._params = params['params']['.'];
@@ -25,7 +28,7 @@ class Peripheral(object):
       self._params = {'build': {}, 'connect': {}, 'init': {}};
     
     # Create endpoints
-    self.endpoints = Endpoints(self, self.fullname(), params['params']);
+    self.endpoints = Endpoints(self, self.fullname(), self.platform, params['params']);
     
     # Create all peripherals    
     self._peripherals = []
@@ -34,6 +37,7 @@ class Peripheral(object):
       newParams = dict(p);
       newParams['path'] = self.fullname();
       newParams['parent'] = self;
+      newParams['platform'] = self.platform;
       self._peripherals.append(module.create(newParams));
   
   # Recursive find method  
@@ -115,11 +119,13 @@ class Peripheral(object):
 # Endpoint base class
 class Endpoint(object):
   
-  def __init__(self, parent, path, name, params):
+  def __init__(self, parent, path, name, platform, params):
     self._parent = parent;
     self._path = path;
     self._name = name;
     self._params = params;
+    
+    self.platform = platform;
     
   def name(self):
     return self._name;

@@ -16,6 +16,7 @@ class Tree(object):
     newParams = dict(params);
     newParams['path'] = "/";
     newParams['parent'] = None;
+    newParams['platform'] = self;
     self._head = module.create(newParams);
     
   # Function for running the phases
@@ -40,9 +41,10 @@ class Tree(object):
   
 class Endpoints(object):
 
-  def __init__(self, parent, path, params):
+  def __init__(self, parent, path, platform, params):
     self._parent = parent;
     self._path = path;
+    self._platform = platform;
     self._params = params;
     
     self._endpoints = dict();
@@ -56,7 +58,7 @@ class Endpoints(object):
     else:
       params = {'build': {}, 'connect': {}, 'init': {}};
       
-    self._endpoints[name] = type(self._parent, self._path, name, params);
+    self._endpoints[name] = type(self._parent, self._path, name, self._platform, params);
     
     return self._endpoints[name];
     

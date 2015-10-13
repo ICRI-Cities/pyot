@@ -1,1 +1,1 @@
-__all__ = ["classes", "peripherals", "tree", "platform"];
+__all__ = ["classes", "peripherals", "tree"];
