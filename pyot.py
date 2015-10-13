@@ -85,7 +85,7 @@ def proTask(config, chan, timer):
         pr.Dbg("Failed to read from sensor");
       else:
         pr.Dbg("Got value: %s" % str(val));
-        chan.put({'name': config['name'], 'ts': ts, 'val': val, 'sent': [False] * len(config['iot'])});
+        chan.put({'name': s['name'], 'ts': ts, 'val': val, 'sent': [False] * len(config['iot'])});
     
     chan.unlock();
     
