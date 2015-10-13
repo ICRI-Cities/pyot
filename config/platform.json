@@ -33,7 +33,7 @@
         "name": "particulate",
         "class": "sensor.AlphaSenseOPC_N1",
         "params": {
-          "sensor": {
+          "root": {
             "build": {},
             "connect": {
               "port": "../.:spi1"
