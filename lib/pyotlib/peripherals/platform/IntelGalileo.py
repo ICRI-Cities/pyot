@@ -8,6 +8,8 @@
 
 import mraa
 import serial
+
+from pyotlib.platform import *
 from pyotlib.classes import *
 
 # Function to make peripheral

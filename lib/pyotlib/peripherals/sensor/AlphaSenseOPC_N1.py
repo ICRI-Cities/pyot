@@ -11,6 +11,7 @@
 import time
 import struct
 
+from pyotlib.platform import *
 from pyotlib.classes import *
 from pyotlib.printlib import *
 
