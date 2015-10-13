@@ -29,7 +29,7 @@ class Peripheral:
     
     # Create all peripherals    
     self.__peripherals = []
-    for p in params['peripherals'];
+    for p in params['peripherals']:
       module = importlib.import_module("pyotlib.peripherals." + p['class']);
       newParams = dict(p);
       newParams['path'] = self.fullname();
