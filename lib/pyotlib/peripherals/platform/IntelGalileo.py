@@ -42,16 +42,14 @@ class GalileoPlatform(peripheral.Peripheral):
   # GPIO Class for Galileo (uses mraa to do everything)
   class GPIO(interface.GPIO):
       
-    # Build function (time to create stuff)
-    def build(self, params):
-      self._gpio = mraa.Gpio(self.pins.getPins(self)[0]);
-      pr.Dbg("Got GPIO!");
-      return;
-      
     # Request function
     def request(self, params):
       if (not(self.pins.request(self))):
         return False;
+    
+      # Note, this should really go in build, but libmraa is stupid and wont work if other objects
+      # are created inbetween...
+      self._gpio = mraa.Gpio(self.pins.getPins(self)[0]);
     
       if ("mode" in params):
         if (params['mode'] == "PULLDOWN"):
@@ -77,45 +75,35 @@ class GalileoPlatform(peripheral.Peripheral):
       
   # SPI Class for Galileo (uses mraa to do everything)
   class SPI(interface.SPI):
-  
-    # Build function, creates Spi object
-    def build(self, params):
-      self._spi = mraa.Spi(1);
-      pr.Dbg("Got SPI");
-      return;
       
     # Request function
     def request(self, params):
       if (not(self.pins.request(self))):
         return False;
         
-      #self._spi = mraa.Spi(1);
+      # Note, this should really go in build, but libmraa is stupid and wont work if other objects
+      # are created inbetween...
+      self._spi = mraa.Spi(1);
       
       if ("frequency" in params):
-        pr.Dbg("Frequency found: %d" % params['frequency']);
         r = self._spi.frequency(params['frequency']);
       else:
         r = self._spi.frequency(5 * (10 ** 6));
         
-      pr.Dbg("Set freq: ret = %d" % r);
         
       if (params['mode'] == 0):
-        r = self._spi.mode(mraa.SPI_MODE0);
+        self._spi.mode(mraa.SPI_MODE0);
       elif (params['mode'] == 1):
-        r = self._spi.mode(mraa.SPI_MODE1);
+        self._spi.mode(mraa.SPI_MODE1);
       elif (params['mode'] == 2):
-        r = self._spi.mode(mraa.SPI_MODE2);
+        self._spi.mode(mraa.SPI_MODE2);
       elif (params['mode'] == 3):
-        r = self._spi.mode(mraa.SPI_MODE3);
+        self._spi.mode(mraa.SPI_MODE3);
         
-      pr.Dbg("Mode set: ret = %d" % r);
       
       if ("lsbmode" in params):
-        r = self._spi.lsbmode(params['lsbmode']);
-        pr.Dbg("LSB: ret = %d" % r);
-        
-      #r = self._spi.writeByte(0x0c);
-      #pr.Dbg("Test: %d" % r);
+        self._spi.lsbmode(params['lsbmode']);
+
       return True;
         
     # SPI functions
