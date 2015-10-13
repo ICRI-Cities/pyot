@@ -37,7 +37,7 @@ class Peripheral(object):
     for p in params['peripherals']:
       module = importlib.import_module("pyotlib.peripherals." + p['class']);
       newParams = dict(p);
-      newParams['path'] = self.fullname();
+      newParams['path'] = self.fullname() + "/";
       newParams['parent'] = self;
       newParams['platform'] = self.platform;
       self._peripherals.append(module.create(newParams));
@@ -87,7 +87,7 @@ class Peripheral(object):
     return self._path;
     
   def fullname(self):
-    return (self._path + "/" + self._name); 
+    return (self._path + self._name); 
      
   #Phases
   
