@@ -123,7 +123,7 @@ def conTask(config, chan):
     if (chan.empty()):
       pr.Dbg("No items to send!");
     
-    for i in xrange(channel.size()):
+    for i in xrange(chan.size()):
       # Pull off an item to send
       item = chan.get();
       
