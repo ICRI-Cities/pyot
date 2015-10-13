@@ -66,10 +66,11 @@ class Peripheral(object):
       if ((parts[0] == self._name) or (parts[0] == ".") or (parts[0] == "..") or (parts[0] == "")):
         pr.Dbg("Well, the first arg is good!");
         newPath = p[len(parts[0]):];
-        if ((parts[1] == self._name) or (parts[1] == ".") or (parts[1] == "")):
+        checkName = parts[1].split(":")[0];
+        if ((checkName == self._name) or (checkName == ".") or (checkName == "")):
           pr.Dbg("Its me!");
           return self._find(newPath);
-        elif (parts[1] == ".."):
+        elif (checkName == ".."):
           pr.Dbg("Its mom!");
           if (self._parent != None):
             return self._parent._find(newPath);
@@ -77,7 +78,7 @@ class Peripheral(object):
           pr.Dbg("Maybe a child... (%s)" % self._peripherals);
           for peripheral in self._peripherals:
             pr.Dbg("Checking child '%s'" % peripheral.fullname());
-            if (parts[1] == peripheral._name):
+            if (checkName == peripheral._name):
               pr.Dbg("This one!");
               return peripheral._find(newPath);
     
