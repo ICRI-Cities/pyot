@@ -25,7 +25,7 @@ class Peripheral(object):
       self.__params = {'build': {}, 'connect': {}, 'init': {}};
     
     # Create endpoints
-    self.endpoints = Endpoints(self, self.fullpath(), params['params']);
+    self.endpoints = Endpoints(self, self.fullname(), params['params']);
     
     # Create all peripherals    
     self.__peripherals = []

@@ -1,8 +1,11 @@
 #
 # PyoT AlphaSense OPC-N1 sensor class
+#
 # Michael Rosen
 # mrrosen
 # 12-10-2015
+#
+# Acknowledge: David Crellin
 #
 
 import time
