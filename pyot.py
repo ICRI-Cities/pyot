@@ -168,7 +168,6 @@ def main(argv):
     sys.exit(-1);
 
   configFile = '';
-  debug = False;
 
   if (not(options[0])):
     prErr("Bad commandline options");
