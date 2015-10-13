@@ -44,7 +44,6 @@ class Peripheral(object):
   
   # Recursive find method  
   def _find(self, path):
-    pr.Dbg("Trying to find '%s' from '%s'" % (path, self.fullname()));
     # Take off the leading /
     p = path[1:];
     
@@ -62,6 +61,8 @@ class Peripheral(object):
       parts = p.split("/");
       if ((parts[0] == self._name) or (parts[0] == ".") or (parts[0] == "..") or (parts[0] == "")):
         newPath = p[len(parts[0]):];
+        
+        # Trim off : part for endpoints
         checkName = parts[1].split(":")[0];
         if ((checkName == self._name) or (checkName == ".") or (checkName == "")):
           return self._find(newPath);

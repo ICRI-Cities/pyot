@@ -10,6 +10,7 @@ import mraa
 import serial
 
 from pyotlib.classes import *
+import pyotlib.printlib as pr
 
 # Function to make peripheral
 def create(params):
@@ -79,6 +80,7 @@ class GalileoPlatform(peripheral.Peripheral):
     # Build function, creates Spi object
     def build(self, params):
       self._spi = mraa.Spi(1);
+      pr.Dbg("Got SPI: %s" % str(self._spi));
       return;
       
     # Request function
@@ -87,21 +89,26 @@ class GalileoPlatform(peripheral.Peripheral):
         return False;
       
       if ("frequency" in params):
-        self._spi.frequency(params['frequency']);
+        r = self._spi.frequency(params['frequency']);
       else:
-        self._spi.frequency(5 * (10 ** 6));
+        r = self._spi.frequency(5 * (10 ** 6));
+        
+      pr.Dbg("Set freq: ret = %d" % r);
         
       if (params['mode'] == 0):
-        self._spi.mode(mraa.SPI_MODE0);
+        r = self._spi.mode(mraa.SPI_MODE0);
       elif (params['mode'] == 1):
-        self._spi.mode(mraa.SPI_MODE1);
+        r = self._spi.mode(mraa.SPI_MODE1);
       elif (params['mode'] == 2):
-        self._spi.mode(mraa.SPI_MODE2);
+        r = self._spi.mode(mraa.SPI_MODE2);
       elif (params['mode'] == 3):
-        self._spi.mode(mraa.SPI_MODE3);
+        r = self._spi.mode(mraa.SPI_MODE3);
         
+      pr.Dbg("Mode set: ret = %d" % r);
+      
       if ("lsbmode" in params):
-        self._spi.lsbmode(params['lsbmode']);
+        r = self._spi.lsbmode(params['lsbmode']);
+        pr.Dbg("LSB: ret = %d" % r);
         
       return True;
         

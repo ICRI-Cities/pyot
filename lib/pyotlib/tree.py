@@ -37,8 +37,10 @@ class Tree(object):
   # Return the node described by path
   def find(self, path, obj=None):
     if ((obj != None) and (path[0] != "/")):
+      pr.Dbg("Trying to find '%s' from '%s'" % (path, obj.fullname()));
       return self._head._find(obj.path() + path);
     elif (path[0] == "/"):
+      pr.Dbg("Trying to find '%s' (absolute)" % path);
       return self._head._find(path);
     return None;
   
