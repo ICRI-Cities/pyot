@@ -8,7 +8,7 @@
 
 import traceback
 
-debug = False;
+debug = [False];
 
 # Print commands
 def prMsg(s):
@@ -22,12 +22,12 @@ def prWrn(s):
 def prErr(s):
   global debug;
   print("-E- %s" % s);
-  if (debug):
+  if (debug[0]):
     traceback.print_exc();
   return;
   
 def prDbg(s):
   global debug;
-  if (debug):
+  if (debug[0]):
     print("-D- %s" % s);
   return;

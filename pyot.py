@@ -181,7 +181,7 @@ def main(argv):
     elif (o in ("-c", "--config")):
       configFile = a;
     elif (o in ("-d", "--debug")):
-      debug = True;
+      debug[0] = True;
       
   if (configFile == ''):
     prErr("Need a configuration file!");
