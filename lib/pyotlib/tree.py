@@ -33,8 +33,8 @@ class Tree(object):
     return;
     
   # Return the node described by path
-  def find(self, obj, path):
-    if (path[0] != "/"):
+  def find(self, path, obj=None):
+    if ((obj != None) and (path[0] != "/")):
       return obj._find("/" + path);
     else:      
       return self._head._find(path);

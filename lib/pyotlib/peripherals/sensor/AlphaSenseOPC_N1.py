@@ -32,7 +32,7 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
   
     def connect(self, params):
       # As the root sensor, you need to grab the 
-      self._spi = self.platform.find(params['port']);
+      self._spi = self.platform.find(params['port'], self);
       
       if (self._spi == None):
         return;
@@ -73,7 +73,7 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
   class Sensor(peripheral.Sensor):
     
     def connect(self, params):
-      self._root = self.platform.find(".:root");
+      self._root = self.platform.find(".:root", self);
       return;
     
     def read(self):
