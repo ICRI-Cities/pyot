@@ -99,6 +99,7 @@ class GalileoPlatform(peripheral.Peripheral):
       if (params['mode'] == 0):
         r = self._spi.mode(mraa.SPI_MODE0);
       elif (params['mode'] == 1):
+        pr.Dbg("Right mode");
         r = self._spi.mode(mraa.SPI_MODE1);
       elif (params['mode'] == 2):
         r = self._spi.mode(mraa.SPI_MODE2);
