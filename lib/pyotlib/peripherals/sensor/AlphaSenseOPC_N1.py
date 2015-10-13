@@ -81,4 +81,5 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
       return;
     
     def read(self):
+      return;
       return self._root.read()[self.name()];
