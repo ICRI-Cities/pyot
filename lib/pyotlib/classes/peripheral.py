@@ -71,9 +71,10 @@ class Peripheral(object):
           return self._find(newPath);
         elif (parts[1] == ".."):
           pr.Dbg("Its mom!");
-          return self._parent._find(newPath);
+          if (self._parent != None):
+            return self._parent._find(newPath);
         else:
-          pr.Dbg("Maybe a child...");
+          pr.Dbg("Maybe a child... (%s)" % self._peripherals);
           for peripheral in self._peripherals:
             pr.Dbg("Checking child '%s'" % peripheral.fullname());
             if (parts[1] == peripheral._name):
