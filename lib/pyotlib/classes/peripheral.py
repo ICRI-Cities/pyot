@@ -8,7 +8,9 @@
 
 import importlib
 from abc import *
+
 from pyotlib.tree import Endpoints
+import pyotlib.printlib as pr
 
 # Base class for peripheral objects, includes a bunch of stuff for dealing with the tree structure
 class Peripheral(object):
@@ -42,12 +44,14 @@ class Peripheral(object):
   
   # Recursive find method  
   def _find(self, path):
+    pr.Dbg("Trying to find '%s' from '%s'" % (path, self.fullname()));
     # Take off the leading /
     p = path[1:];
     
     # If there is no longer a / in the path, we are the end (maybe)
     if (not("/" in p)):
       parts = p.split(":");
+      pr.Dbg("No more '/', checking self (%s)" % str(parts));
       if ((parts[0] == self._name) or (parts[0] == ".")):
         if (len(parts) == 1):
           return self;
@@ -56,15 +60,22 @@ class Peripheral(object):
     else:
       # We are not the endpoint, strip off ourself (also checking if we were the proper place to go)
       parts = p.split("/");
+      pr.Dbg("Figuring more.... %s" % str(parts));
       if ((parts[0] == self._name) or (parts[0] == ".") or (parts[0] == "..") or (parts[0] == "")):
+        pr.Dbg("Well, the first arg is good!");
         newPath = p[len(parts[0]):];
         if ((parts[1] == self._name) or (parts[1] == ".") or (parts[1] == "")):
+          pr.Dbg("Its me!");
           return self._find(newPath);
         elif (parts[1] == ".."):
+          pr.Dbg("Its mom!");
           return self._parent._find(newPath);
         else:
+          pr.Dbg("Maybe a child...");
           for peripheral in self._peripherals:
+            pr.Dbg("Checking child '%s'" % peripheral.fullname());
             if (parts[1] == peripheral._name):
+              pr.Dbg("This one!");
               return peripheral._find(newPath);
     
     return None;
