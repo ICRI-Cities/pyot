@@ -52,6 +52,7 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
           pr.Dbg("OPC - N1: Turning on fan... (try: %d)" % i);
           r = self._spi.transfer(0x0C);
           pr.Dbg("OPC - N1: ret = %d" % r);
+          time.slepp(0.1);
       return;
       
     def read(self):
