@@ -74,7 +74,7 @@ class Endpoints(object):
     
   def connect(self):
     for ep in self._endpoints:
-      self._endpoints[ep].connect(self.__endpoints[ep]._params['connect']);
+      self._endpoints[ep].connect(self._endpoints[ep]._params['connect']);
     return;
     
   def init(self):
