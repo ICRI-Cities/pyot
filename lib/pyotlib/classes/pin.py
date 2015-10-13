@@ -21,7 +21,7 @@ class Pins(object):
       p = set(pins);
       
     if (p.issubset(self._freepins)):
-      obj._pinSet._freepins = self._freepins.difference(p);
+      self._freepins = self._freepins.difference(p);
       return True;
     
     return False;
