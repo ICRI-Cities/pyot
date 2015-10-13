@@ -34,7 +34,7 @@ class Peripheral(object):
       newParams = dict(p);
       newParams['path'] = self.fullname();
       newParams['parent'] = self;
-      self.__peripherals.append(module.create(newParams));
+      self._peripherals.append(module.create(newParams));
   
   # Recursive find method  
   def _find(self, path):
