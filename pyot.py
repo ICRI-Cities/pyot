@@ -29,7 +29,7 @@ def prHelp():
         "                              describes the setup of the node's hardware and sensors as\n"
         "                              well as the communication channels to use. This file also\n"
         "                              configures which sensors are sent to the IoT backend (and\n"
-        "                              which backends to use)."
+        "                              which backends to use).\n"
         "                              Note that this should be a JSON file\n"
         "     -d, --debug              Print debug messages\n");
   return;
