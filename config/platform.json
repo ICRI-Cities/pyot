@@ -61,7 +61,7 @@
             "init": {
               "broker": "broker.us.enableiot.com",
               "brokerPort": 8883,
-              "certs": "/usr/lib/node_modules/iotkit-agent/certs/AddTrust_External_Root.pem"
+              "certs": "/usr/lib/node_modules/iotkit-agent/certs/AddTrust_External_Root.pem",
               "qos": 1,
               "deviceID": "ICRI_TEST",
               "accountID": "xxx",
