@@ -63,19 +63,21 @@ class IntelIoTAnalytics(peripheral.Peripheral):
         'count': 1,
         'data': [{'on': ts, 'value': data, 'cid': comp}]
       };
-
+      pr.Dbg("Sending: %s \n\nto: %s" % (str(packet), str(topic)));
       (succ, mid) = self._mqtt.publish(topic, json.dumps(packet), qos=self._qos);
-     
+      pr.Dbg("Succ: %d, MID: %d" % (succ, mid));
       start = time.time();
       while (time.time() < (start + self._messageTimeout)):
         if (mid in self._gotMessages):
           self._gotMessages.remove(mid);
+          pr.Dbg("Success!");
           return True;
-     
+      pr.Dbg("Fail....");
       return False;
       
     def publishCallback(self, client, userdata, mid):
       self._gotMessages.append(mid);
+      pr.Dbg("Got msg: %d" % mid);
       return;
     
     def poll(self):
