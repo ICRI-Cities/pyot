@@ -6,8 +6,16 @@
   
   "sensors": [
     {
-      "name": "as_opc_n1",
+      "name": "as_opc_n1_pm10",
       "path": "/galileo/particulate:pm10"
+    },
+    {
+      "name": "as_opc_n1_pm25",
+      "path": "/galileo/particulate:pm25"
+    },
+    {
+      "name": "as_opc_n1_pm100",
+      "path": "/galileo/particulate:pm100"
     }
   ],
   
@@ -52,8 +60,13 @@
             "connect": {},
             "init": {
               "broker": "broker.us.enableiot.com",
-              "port": 8883,
-              "qos": 1
+              "brokerPort": 8883,
+              "certs": "/usr/lib/node_modules/iotkit-agent/certs/AddTrust_External_Root.pem"
+              "qos": 1,
+              "deviceID": "ICRI_TEST",
+              "accountID": "xxx",
+              "token": "None",
+              "timeout": 10
             }
           }
         },
