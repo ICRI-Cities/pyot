@@ -52,6 +52,7 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
         self._spi.transfer(0x0C);
         
       self._timeBetweenSamples = params['minTimeBetweenSamples'];
+      self._lastRead = time.time() - (2 * self._timeBetweenSamples);
 
       return;
       
