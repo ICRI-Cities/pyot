@@ -52,7 +52,9 @@
             "connect": {
               "port": "../.:spi1"
             },
-            "init": {}
+            "init": {
+              "minTimeBetweenSamples": 2000
+            }
           }
         },
         "peripherals": []

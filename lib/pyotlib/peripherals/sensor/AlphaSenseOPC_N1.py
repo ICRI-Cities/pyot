@@ -50,31 +50,38 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
       if (self._spi != None):
         pr.Dbg("OPC - N1: Turning on fan...");
         self._spi.transfer(0x0C);
+        
+      self._timeBetweenSamples = params['minTimeBetweenSamples'];
 
       return;
       
     def read(self):
       if (self._spi != None):
-        pr.Dbg("OPC - N1: Reading from sensor...");
+        if (time.time() > (self._lastRead + self._timeBetweenSamples)):
+          pr.Dbg("OPC - N1: Reading from sensor...");
         
-        # Be sure the fan is on
-        self._spi.transfer(0x0C);
-        time.sleep(0.1);
+          # Be sure the fan is on
+          self._spi.transfer(0x0C);
+          time.sleep(0.1);
         
-        # Send the command to read the data
-        self._spi.transfer(0x30);
-        time.sleep(0.006);
+          # Send the command to read the data
+          self._spi.transfer(0x30);
+          time.sleep(0.006);
         
-        v = [];
-        for i in xrange(62):
-          v.append(self._spi.transfer(0xC0));
-          time.sleep(0.000008);
+          v = [];
+          for i in xrange(62):
+            v.append(self._spi.transfer(0xC0));
+            time.sleep(0.000008);
         
-        pm10 = self.bytelistToFloat(v[50:54]);
-        pm25 = self.bytelistToFloat(v[54:58]);
-        pm100 = self.bytelistToFloat(v[58:62]);
-        
-        return {'pm10': pm10, 'pm25': pm25, 'pm100': pm100};
+          pm10 = self.bytelistToFloat(v[50:54]);
+          pm25 = self.bytelistToFloat(v[54:58]);
+          pm100 = self.bytelistToFloat(v[58:62]);
+          self._lastReading = {'pm10': pm10, 'pm25': pm25, 'pm100': pm100};
+          
+          self._lastRead = time.time();
+          
+        pr.Dbg("OPC - N1: Returning sensor data");
+        return self._lastReading;
     
     def bytelistToFloat(self, list):
       v = list[3] + (list[2] << 8) + (list[1] << 16) + (list[0] << 24);
