@@ -141,7 +141,7 @@ class Endpoint(object):
     return self._path;
     
   def fullname(self):
-    return (self._path + ":" + self._name);
+    return (self._path[:-1] + ":" + self._name);
     
   def _find(self, path):
     return self._parent._find(path);

@@ -56,6 +56,12 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
     def read(self):
       if (self._spi != None):
         pr.Dbg("OPC - N1: Reading from sensor...");
+        
+        # Be sure the fan is on
+        self._spi.transfer(0x0C);
+        time.sleep(0.1);
+        
+        # Send the command to read the data
         self._spi.transfer(0x30);
         time.sleep(0.006);
         
