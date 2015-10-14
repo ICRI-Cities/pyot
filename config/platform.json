@@ -53,7 +53,7 @@
               "port": "../.:spi1"
             },
             "init": {
-              "minTimeBetweenSamples": 2000
+              "minTimeBetweenSamples": 2
             }
           }
         },
