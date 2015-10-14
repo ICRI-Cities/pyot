@@ -1,7 +1,7 @@
 {
   "threadRestartRate": 3600,
-  "sensorSampleRate": 120,
-  "iotSendRate": 120,
+  "sensorSampleRate": 20,
+  "iotSendRate": 40,
   "timer": "default",
   
   "sensors": [
