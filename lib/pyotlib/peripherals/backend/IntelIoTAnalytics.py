@@ -55,18 +55,24 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       data = val['val'];
       
       topic = "server/metric/%s/%s" % (self._accountID, self._deviceID);
-
-      # (succ, mid) = self._mqtt.publish(topic, json.dumps(packet), qos=self._qos);
-      #
-      # start = time.time();
-      # while (time.time() < (start + self._messageTimeout)):
-      #   if (mid in self._gotMessages):
-      #     self._gotMessages.remove(mid);
-      #     return True;
-      #
-      # return False;
       
-      return True;
+      packet = {
+        'accountID': self._accountID,
+        'did': self._deviceID,
+        'on': time.time(),
+        'count': 1,
+        'data': [{'on': ts, 'value': data, 'cid': comp}]
+      };
+
+      (succ, mid) = self._mqtt.publish(topic, json.dumps(packet), qos=self._qos);
+     
+      start = time.time();
+      while (time.time() < (start + self._messageTimeout)):
+        if (mid in self._gotMessages):
+          self._gotMessages.remove(mid);
+          return True;
+     
+      return False;
       
     def publishCallback(self, client, userdata, mid):
       self._gotMessages.append(mid);

@@ -58,7 +58,6 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
       
     def read(self):
       if (self._spi != None):
-        pr.Dbg("%f > %f ? " % (time.time(), (self._lastRead + self._timeBetweenSamples)));
         if (time.time() > (self._lastRead + self._timeBetweenSamples)):
           pr.Dbg("OPC - N1: Reading from sensor...");
         
