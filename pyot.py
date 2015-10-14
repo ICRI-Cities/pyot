@@ -85,7 +85,7 @@ def proTask(config, chan, timer):
       
       # Read the sensor x times and take the median value to try and reduce noise
       for sample in xrange(s['numSamples']):
-        samples.append = s['sensor'].read();
+        samples.append(s['sensor'].read());
         time.sleep(s['timeBetweenSamples']);
         
       samples.sort();
