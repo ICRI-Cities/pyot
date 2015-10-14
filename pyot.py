@@ -63,7 +63,10 @@ def proTask(config, chan, timer):
     if (sensor == None):
       pr.Wrn("Sensor '%s'('%s') was not found" % (sen['name'], sen['path']));
     else:
-      sensors.append({'name': sen['name'], 'sensor': sensor});
+      sensors.append({'name': sen['name'], 
+                      'sensor': sensor, 
+                      'numSamples': sen['numSamples'], 
+                      'timeBetweenSamples': sen['timeBetweenSamples']});
       
   if (len(sensors) == 0):
     pr.Err("No sensor paths in configuration are valid!");
@@ -78,7 +81,19 @@ def proTask(config, chan, timer):
     
     for s in sensors:
       pr.Dbg("Reading from sensor '%s'" % s['sensor'].fullname());
-      val = s['sensor'].read();
+      samples = [];
+      
+      # Read the sensor x times and take the median value to try and reduce noise
+      for sample in s['numSamples']:
+        samples.append = s['sensor'].read();
+        time.sleep(s['timeBetweenSamples']);
+        
+      samples.sort();
+      if ((len(samples) % 2) == 0):
+        val = (samples[len(samples) / 2] + samples[(len(samples) - 1) / 2]) / 2;
+      else:
+        val = samples[len(samples) / 2];
+        
       ts = timer();
       
       if (val == None):

@@ -7,15 +7,21 @@
   "sensors": [
     {
       "name": "as_opc_n1_pm10",
-      "path": "/galileo/particulate:pm10"
+      "path": "/galileo/particulate:pm10",
+      "numSamples": 1,
+      "timeBetweenSamples": 0
     },
     {
       "name": "as_opc_n1_pm25",
-      "path": "/galileo/particulate:pm25"
+      "path": "/galileo/particulate:pm25",
+      "numSamples": 1,
+      "timeBetweenSamples": 0
     },
     {
       "name": "as_opc_n1_pm100",
-      "path": "/galileo/particulate:pm100"
+      "path": "/galileo/particulate:pm100",
+      "numSamples": 1,
+      "timeBetweenSamples": 0
     }
   ],
   
