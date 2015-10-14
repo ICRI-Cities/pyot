@@ -59,7 +59,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       packet = {
         'accountID': self._accountID,
         'did': self._deviceID,
-        'on': time.time(),
+        'on': int(round(time.time() * 1000)),
         'count': 1,
         'data': [{'on': ts, 'value': data, 'cid': comp}]
       };
