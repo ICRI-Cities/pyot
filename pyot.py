@@ -48,7 +48,7 @@ def setupTimer(config):
   return getSystemTime;
     
 def getSystemTime():
-  return (time.time() * 1000);
+  return int(round((time.time() * 1000)));
 
 # Producer Thread, reads data from all sensors that are given in the configuration
 def proTask(config, chan, timer):
