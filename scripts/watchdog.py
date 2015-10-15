@@ -11,7 +11,7 @@ import time
 import pyotlib.printlib as pr
 
 while (True):
-  pr.Msg("Pinging www.intel.com to check int"
+  pr.Msg("Pinging www.intel.com to check internet");
   ret = os.system("ping -c1 -w1 www.intel.com");
   
   if (ret != 0):
