@@ -34,9 +34,9 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._gotMessages = [];
   
     def init(self, params):
-      self._token = params['token'];
-      self._accountID = params['accountID'];
-      self._deviceID = params['deviceID'];
+      self._token = str(params['token']);
+      self._accountID = str(params['accountID']);
+      self._deviceID = str(params['deviceID']);
       self._qos = params['qos'];
       self._messageTimeout = params['timeout'];
     
@@ -46,14 +46,14 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.tls_insecure_set(True);
       
       self._mqtt.username_pw_set(self._accountID, self._token);
-      r = self._mqtt.connect(params['broker'], params['brokerPort']);
+      r = self._mqtt.connect(str(params['broker']), str(params['brokerPort']));
       pr.Dbg("Get back conn: %s" % mqtt.error_string(r));
       
       self._mqtt.on_publish = pub;
       self._mqtt.on_log = self.log;
       
       r = self._mqtt.loop_start();
-      pr.Dbg("Get back loop: %s" % mqtt.error_string(r));
+      pr.Dbg("Get back loop: %s %d" % (mqtt.error_string(r), r));
       return;
       
     def log(self, client, userdata, level, buf):
