@@ -14,7 +14,7 @@ for f in os.listdir("scripts"):
   if (f.endswith(".py")):
     print("-M- Found script '%s'" % f);
     try:
-      with open(f[:-3] + ".arg") as fh:
+      with open("scripts/" + f[:-3] + ".arg") as fh:
         args = fh.readline().replace("\n", "");
         print("-M- Found args '%s'" % args);
     except:
