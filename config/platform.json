@@ -70,7 +70,7 @@
               "broker": "broker.us.enableiot.com",
               "brokerPort": 8883,
               "certs": "/usr/lib/node_modules/iotkit-agent/certs/AddTrust_External_Root.pem",
-              "qos": 1,
+              "qos": 0,
               "deviceID": "DEV",
               "accountID": "bf16a8fd-c4ad-489b-9336-97d3dcd1990d",
               "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4MDk2YTFiNi1jNDZkLTQwN2MtYWZiNi1kMTA5NGM4YmIzNzgiLCJpc3MiOiJodHRwOi8vZW5hYmxlaW90LmNvbSIsInN1YiI6IkRFViIsImV4cCI6IjIwMjUtMTAtMTFUMTY6MDc6NTYuMjc4WiJ9.SIWS5fAQGwCKORS41OOH3-wa7Bt2XLIJKVAqKYWzaVDyMxBnEv5lD6F9oBoixxmMqwcvWFo91WineF3-VkAfAFIwOvAfpb3e3Fc3q3m8t_HmT1fur-F-rqUMWwT1RW8NFelLARXqgzcur7TMl5hupTCdzRUx0BvpyC_zYSlaNxNnAl4eFCL75cu2PBIGkjNNGkgE2MGCvbeqFCDk2IHIHonf4VJvIc2OY69Z48paxJOdboV_7D3S_GMypvGCUrCoxweQeiCqDuITSGJSKnbp5FKiFR5v_YV094jgkHUHjwB0KbeRAn56MCnStqD_7n--aR0EtepzlXwY3msO2fuWsw",
