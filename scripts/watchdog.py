@@ -28,8 +28,11 @@ def reboot():
       logs.sort();
       os.remove("logs/" + logs[0]);
       logs = os.listdir("logs");
+  except:
+    pass;
 
   os.system("reboot");
+  return;
   
 startTime = time.time();
 
