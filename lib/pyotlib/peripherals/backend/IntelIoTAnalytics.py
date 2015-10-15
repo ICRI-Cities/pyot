@@ -45,6 +45,8 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.connect(params['broker'], params['brokerPort']);
       
       self._mqtt.on_publish = self.publishCallback;
+      
+      self._mqtt.loop_start();
       return;
     
     def send(self, val):
@@ -52,7 +54,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       
       ts = val['ts'];
       comp = val['name'];
-      data = val['val'];
+      data = str(val['val']);
       
       topic = "server/metric/%s/%s" % (self._accountID, self._deviceID);
       
