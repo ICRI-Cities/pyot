@@ -45,15 +45,14 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.tls_insecure_set(True);
       
       self._mqtt.username_pw_set(self._deviceID, self._token);
-      r = self._mqtt.connect(str(params['broker']), params['brokerPort']);
-      pr.Dbg("Get back conn: %s" % mqtt.error_string(r));
+      self._mqtt.connect(str(params['broker']), params['brokerPort']);
+      
+      pr.Dbg("EnableIoT - MQTT: Connecting to %s : %d" % (str(params['broker']), params['brokerPort']));
       
       self._mqtt.on_publish = self.publishCallback;
       self._mqtt.on_log = self.logCallback;
       
-      r = self._mqtt.loop_start();
-      if (r != None):
-        pr.Dbg("Get back loop: %s %d" % (mqtt.error_string(r), r));
+      self._mqtt.loop_start();
       return;
       
     def logCallback(self, client, userdata, level, buf):
@@ -76,27 +75,29 @@ class IntelIoTAnalytics(peripheral.Peripheral):
         'count': 1,
         'data': [{'on': ts, 'value': data, 'cid': comp}]
       };
-      pr.Dbg("Sending: %s \n\nto: %s" % (json.dumps(packet), str(topic)));
+      
+      pr.Dbg("EnableIoT - MQTT: Sending packet to topic: '%s'%s" % (str(topic), json.dumps(packet)));
       (succ, mid) = self._mqtt.publish(topic, json.dumps(packet), qos=self._qos);
-      pr.Dbg("Succ: %s, MID: %d" % (mqtt.error_string(succ), mid));
+
+      pr.Dbg("EnableIoT - MQTT: Published Message %d (Err: '%s')" % (mid, mqtt.error_string(succ)));
       start = time.time();
       while (time.time() < (start + self._messageTimeout)):
         self._gotMessagesLock.acquire();
         if (mid in self._gotMessages):
           self._gotMessages.remove(mid);
           self._gotMessagesLock.release();
-          pr.Dbg("Success!");
+          pr.Dbg("EnableIoT - MQTT: Success!");
           return True;
         self._gotMessagesLock.release();
         time.sleep(0.5);
-      pr.Dbg("Fail....");
+      pr.Dbg("EnableIoT - MQTT: Fail....");
       return False;
       
     def publishCallback(self, client, userdata, mid):
       self._gotMessagesLock.acquire();
       self._gotMessages.append(mid);
       self._gotMessagesLock.release();
-      pr.Dbg("Got msg: %d" % mid);
+      pr.Dbg("EnableIoT - MQTT: Got message: %d" % mid);
       return;
     
     def poll(self):
