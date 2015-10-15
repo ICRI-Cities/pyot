@@ -72,7 +72,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       };
       pr.Dbg("Sending: %s \n\nto: %s" % (json.dumps(packet), str(topic)));
       (succ, mid) = self._mqtt.publish(topic, json.dumps(packet), qos=self._qos);
-      pr.Dbg("Succ: %d, MID: %d" % (succ, mid));
+      pr.Dbg("Succ: %s, MID: %d" % (mqtt.error_string(succ), mid));
       start = time.time();
       while (time.time() < (start + self._messageTimeout)):
         if (mid in self._gotMessages):
