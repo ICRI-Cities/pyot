@@ -17,7 +17,7 @@ def Msg(s):
   return;
   
 def Wrn(s):
-  print("%20s: -W- %s" % (sys.argv[0], s);
+  print("%20s: -W- %s" % (sys.argv[0], s));
   return;
   
 def Err(s):
