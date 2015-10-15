@@ -53,7 +53,8 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.on_log = self.log;
       
       r = self._mqtt.loop_start();
-      pr.Dbg("Get back loop: %s %d" % (mqtt.error_string(r), r));
+      if (r != None):
+        pr.Dbg("Get back loop: %s %d" % (mqtt.error_string(r), r));
       return;
       
     def log(self, client, userdata, level, buf):
