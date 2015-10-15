@@ -7,6 +7,7 @@
 #
 
 import os
+import subprocess
 
 # Generate list of all python scripts in the directory
 scripts = [];
@@ -27,4 +28,4 @@ for f in os.listdir("scripts"):
 for s in scripts:
   cmd = "python scripts/" + s['script'] + " " + s['args'] + " &";
   print("-M- Running: %s" % cmd);
-  os.system(cmd);
+  subprocess.call(cmd, shell=True);
