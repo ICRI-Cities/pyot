@@ -74,6 +74,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
           self._gotMessages.remove(mid);
           pr.Dbg("Success!");
           return True;
+        time.sleep(0.5);
       pr.Dbg("Fail....");
       return False;
       
