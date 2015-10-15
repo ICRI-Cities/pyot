@@ -46,12 +46,13 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.tls_insecure_set(True);
       
       self._mqtt.username_pw_set(self._accountID, self._token);
-      self._mqtt.connect(params['broker'], params['brokerPort']);
+      r = self._mqtt.connect(params['broker'], params['brokerPort']);
+      pr.Dbg("Get back conn: %s" % mqtt.error_string(r));
       
       self._mqtt.on_publish = pub;
       
       r = self._mqtt.loop_start();
-      pr.Dbg("Get back %s" % mqtt.error_string(r));
+      pr.Dbg("Get back loop: %s" % mqtt.error_string(r));
       return;
     
     def send(self, val):
