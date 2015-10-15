@@ -8,6 +8,7 @@
 
 import json
 import time
+import threading
 import paho.mqtt.client as mqtt
 
 from pyotlib.classes import *
@@ -16,10 +17,6 @@ import pyotlib.printlib as pr
 # Function to make peripheral
 def create(params):
   return IntelIoTAnalytics(params);
-  
-def pub(client, userdata, mid):
-  pr.Dbg(" -- Got Message %d" % mid);
-  return;
   
 class IntelIoTAnalytics(peripheral.Peripheral):
 
@@ -32,6 +29,8 @@ class IntelIoTAnalytics(peripheral.Peripheral):
   
     def build(self, params):
       self._gotMessages = [];
+      self._gotMessagesLock = threading.Lock();
+      return;
   
     def init(self, params):
       self._token = str(params['token']);
@@ -49,15 +48,15 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       r = self._mqtt.connect(str(params['broker']), params['brokerPort']);
       pr.Dbg("Get back conn: %s" % mqtt.error_string(r));
       
-      self._mqtt.on_publish = pub;
-      self._mqtt.on_log = self.log;
+      self._mqtt.on_publish = self.publishCallback;
+      self._mqtt.on_log = self.logCallback;
       
       r = self._mqtt.loop_start();
       if (r != None):
         pr.Dbg("Get back loop: %s %d" % (mqtt.error_string(r), r));
       return;
       
-    def log(self, client, userdata, level, buf):
+    def logCallback(self, client, userdata, level, buf):
       pr.Dbg("EnableIoT - MQTT: %s" % buf);
       return;
     
@@ -82,16 +81,21 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       pr.Dbg("Succ: %s, MID: %d" % (mqtt.error_string(succ), mid));
       start = time.time();
       while (time.time() < (start + self._messageTimeout)):
+        self._gotMessagesLock.acquire();
         if (mid in self._gotMessages):
           self._gotMessages.remove(mid);
+          self._gotMessagesLock.release();
           pr.Dbg("Success!");
           return True;
+        self._gotMessagesLock.release();
         time.sleep(0.5);
       pr.Dbg("Fail....");
       return False;
       
     def publishCallback(self, client, userdata, mid):
+      self._gotMessagesLock.acquire();
       self._gotMessages.append(mid);
+      self._gotMessagesLock.release();
       pr.Dbg("Got msg: %d" % mid);
       return;
     
