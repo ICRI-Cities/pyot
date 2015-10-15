@@ -25,6 +25,6 @@ for f in os.listdir("scripts"):
 
 # Run all the found commands    
 for s in scripts:
-  cmd = "python scripts/" + s['script'] + " " + s['args'] + " > /dev/kmsg 2>&1 &";
+  cmd = "python scripts/" + s['script'] + " " + s['args'] + " &";
   print("-M- Running: %s" % cmd);
   os.system(cmd);
