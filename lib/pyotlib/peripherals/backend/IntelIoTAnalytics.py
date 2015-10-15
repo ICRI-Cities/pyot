@@ -50,7 +50,8 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       
       self._mqtt.on_publish = pub;
       
-      self._mqtt.loop_start();
+      r = self._mqtt.loop_start();
+      pr.Dbg("Get back %s" % mqtt.error_string(r));
       return;
     
     def send(self, val):
