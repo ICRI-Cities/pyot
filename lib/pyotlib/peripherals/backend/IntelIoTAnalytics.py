@@ -56,7 +56,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       pr.Dbg("Get back loop: %s" % mqtt.error_string(r));
       return;
       
-    def log(self, userdata, level, buf):
+    def log(self, client, userdata, level, buf):
       pr.Dbg("EnableIoT - MQTT: %s" % buf);
       return;
     
