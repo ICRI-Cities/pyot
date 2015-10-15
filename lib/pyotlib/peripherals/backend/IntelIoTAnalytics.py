@@ -69,7 +69,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
         'count': 1,
         'data': [{'on': ts, 'value': data, 'cid': comp}]
       };
-      pr.Dbg("Sending: %s \n\nto: %s" % (str(packet), str(topic)));
+      pr.Dbg("Sending: %s \n\nto: %s" % (json.dumps(packet), str(topic)));
       (succ, mid) = self._mqtt.publish(topic, json.dumps(packet), qos=self._qos);
       pr.Dbg("Succ: %d, MID: %d" % (succ, mid));
       start = time.time();
