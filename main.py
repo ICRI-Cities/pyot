@@ -8,6 +8,11 @@
 
 import os
 
+# Create logs directory if it doesnt exist
+if (not("logs" in os.listdir("."))):
+  print("-M- Created logs directory");
+  os.mkdir("logs");
+
 # Generate list of all python scripts in the directory
 scripts = [];
 for f in os.listdir("scripts"):
@@ -25,6 +30,6 @@ for f in os.listdir("scripts"):
 
 # Run all the found commands    
 for s in scripts:
-  cmd = "python scripts/" + s['script'] + " " + s['args'] + " &";
+  cmd = "python scripts/" + s['script'] + " " + s['args'] + " > logs/current.log &";
   print("-M- Running: %s" % cmd);
   os.system(cmd);
