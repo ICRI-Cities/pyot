@@ -67,11 +67,11 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       topic = "server/metric/%s/%s" % (self._accountID, self._deviceID);
       
       packet = {
-        'accountID': self._accountID,
+        'accountId': self._accountID,
         'did': self._deviceID,
         'on': ts,
         'count': 1,
-        'data': [{'on': ts, 'value': data[:5], 'cid': comp}]
+        'data': [{'on': ts, 'value': data, 'cid': comp}]
       };
       
       pr.Dbg("EnableIoT - MQTT: Sending packet to topic '%s': %s" % (str(topic), json.dumps(packet)));
