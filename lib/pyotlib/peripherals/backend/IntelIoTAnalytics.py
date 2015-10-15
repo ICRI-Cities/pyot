@@ -47,7 +47,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.username_pw_set(self._deviceID, self._token);
       self._mqtt.connect(str(params['broker']), params['brokerPort']);
       
-      pr.Dbg("EnableIoT - MQTT: Connecting to %s : %d" % (str(params['broker']), params['brokerPort']));
+      pr.Dbg("EnableIoT - MQTT: Connecting to %s:%d" % (str(params['broker']), params['brokerPort']));
       
       self._mqtt.on_publish = self.publishCallback;
       self._mqtt.on_log = self.logCallback;
@@ -76,7 +76,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
         'data': [{'on': ts, 'value': data, 'cid': comp}]
       };
       
-      pr.Dbg("EnableIoT - MQTT: Sending packet to topic: '%s'%s" % (str(topic), json.dumps(packet)));
+      pr.Dbg("EnableIoT - MQTT: Sending packet to topic '%s': %s" % (str(topic), json.dumps(packet)));
       (succ, mid) = self._mqtt.publish(topic, json.dumps(packet), qos=self._qos);
 
       pr.Dbg("EnableIoT - MQTT: Published Message %d (Err: '%s')" % (mid, mqtt.error_string(succ)));
