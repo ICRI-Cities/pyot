@@ -17,6 +17,10 @@ import pyotlib.printlib as pr
 def create(params):
   return IntelIoTAnalytics(params);
   
+def pub(client, userdata, mid):
+  pr.Dbg(" -- Got Message %d" % mid);
+  return;
+  
 class IntelIoTAnalytics(peripheral.Peripheral):
 
   # Build function, add comm to endpoints
@@ -44,7 +48,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.username_pw_set(self._accountID, self._token);
       self._mqtt.connect(params['broker'], params['brokerPort']);
       
-      self._mqtt.on_publish = self.publishCallback;
+      self._mqtt.on_publish = pub;
       
       self._mqtt.loop_start();
       return;
