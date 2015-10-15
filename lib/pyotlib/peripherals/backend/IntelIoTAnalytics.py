@@ -60,8 +60,6 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       return;
     
     def send(self, val):
-      print(val);
-      
       ts = val['ts'];
       comp = val['name'];
       data = str(val['val']);
@@ -73,7 +71,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
         'did': self._deviceID,
         'on': ts,
         'count': 1,
-        'data': [{'on': ts, 'value': data, 'cid': comp}]
+        'data': [{'on': ts, 'value': data[:5], 'cid': comp}]
       };
       
       pr.Dbg("EnableIoT - MQTT: Sending packet to topic '%s': %s" % (str(topic), json.dumps(packet)));
