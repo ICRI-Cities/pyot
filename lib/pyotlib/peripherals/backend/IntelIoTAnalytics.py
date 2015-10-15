@@ -46,7 +46,7 @@ class IntelIoTAnalytics(peripheral.Peripheral):
       self._mqtt.tls_insecure_set(True);
       
       self._mqtt.username_pw_set(self._accountID, self._token);
-      r = self._mqtt.connect(str(params['broker']), str(params['brokerPort']));
+      r = self._mqtt.connect(str(params['broker']), params['brokerPort']);
       pr.Dbg("Get back conn: %s" % mqtt.error_string(r));
       
       self._mqtt.on_publish = pub;
