@@ -35,7 +35,7 @@ class GalileoPlatform(peripheral.Peripheral):
     #self.pins.assign(self.endpoints.add("i2c1", GalileoPlatform.I2C), [20, 21]);
     self.pins.assign(self.endpoints.add("spi1", GalileoPlatform.SPI), [10, 11, 12, 13]);
     self.pins.assign(self.endpoints.add("uart2", GalileoPlatform.UART), [22]);
-    #self.pins.assign(self.endpoints.add("uart1", GalileoPlatform.UART), [0, 1]);
+    self.pins.assign(self.endpoints.add("uart1", GalileoPlatform.UART), [0, 1]);
     
     return;
     

@@ -22,6 +22,19 @@
       "path": "/galileo/particulate:pm100",
       "numSamples": 1,
       "timeBetweenSamples": 0
+    },
+    
+    {
+      "name": "c928ca7a-692b-4721-a161-0c747a21e4aa",
+      "path": "/galileo/davisws:inside_temperature",
+      "numSamples": 1,
+      "timeBetweenSamples": 0
+    },
+    {
+      "name": "88d40ca6-a05d-47ef-8f56-7045374bcc1a",
+      "path": "/galileo/davisws:outside_temperature",
+      "numSamples": 1,
+      "timeBetweenSamples": 0
     }
   ],
   
@@ -55,6 +68,20 @@
             "init": {
               "minTimeBetweenSamples": 2
             }
+          }
+        },
+        "peripherals": []
+      },
+      {
+        "name": "davisws",
+        "class": "sensor.DavisWS",
+        "params": {
+          "root": {
+            "build": {},
+            "connect": {
+              "port": "../.:uart2"
+            },
+            "init": {}
           }
         },
         "peripherals": []
