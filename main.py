@@ -34,6 +34,6 @@ for f in os.listdir("scripts"):
 
 # Run all the found commands    
 for s in scripts:
-  cmd = "python scripts/" + s['script'] + " " + s['args'] + " >> /dev/kmsg &";
+  cmd = "python -u scripts/" + s['script'] + " " + s['args'] + " >> /dev/kmsg &";
   print("-M- Running: %s" % cmd);
   os.system(cmd);
