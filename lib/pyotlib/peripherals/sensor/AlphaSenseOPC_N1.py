@@ -98,5 +98,5 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
       return;
     
     def read(self):
-      pr.Dbg("OPC - N1: reading...");
+      pr.Dbg("OPC - N1: Reading %s..." % self.name());
       return self._root.read()[self.name()];
