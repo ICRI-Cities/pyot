@@ -99,4 +99,9 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
     
     def read(self):
       pr.Dbg("OPC - N1: Reading %s..." % self.name());
-      return self._root.read()[self.name()];
+      val = self._root.read();
+      if (val != None):
+        return val[self.name()];
+      else:
+        return None;
+
