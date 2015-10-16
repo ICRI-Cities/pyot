@@ -85,22 +85,27 @@ def proTask(config, chan, timer):
       
       # Read the sensor x times and take the median value to try and reduce noise
       for sample in xrange(s['numSamples']):
-        samples.append(s['sensor'].read());
+        val = s['sensor'].read();
+        if (not(val == None)):
+          samples.append(s['sensor'].read());
         time.sleep(s['timeBetweenSamples']);
         
       samples.sort();
-      if ((len(samples) % 2) == 0):
-        val = (samples[len(samples) / 2] + samples[(len(samples) - 1) / 2]) / 2;
+      if (len(smaples) == 0):
+        pr.Wrn("Read no valid values from sensor!");
+        val = None;
       else:
-        val = samples[len(samples) / 2];
+        if ((len(samples) % 2) == 0):
+          val = (samples[len(samples) / 2] + samples[(len(samples) - 1) / 2]) / 2;
+        else:
+          val = samples[len(samples) / 2];
         
       ts = timer();
       
-      if (val == None):
-        pr.Dbg("Failed to read from sensor");
-      else:
-        pr.Dbg("Got value: %s" % str(val));
-        chan.put({'name': s['name'], 'ts': ts, 'val': val, 'sent': [False] * len(config['iot'])});
+      if (not(val == None)):
+        item = {'name': s['name'], 'ts': ts, 'val': val, 'sent': [False] * len(config['iot'])};
+        pr.Dbg("Putting '%s' into the channel" % str(item));
+        chan.put(item);
     
     chan.unlock();
     

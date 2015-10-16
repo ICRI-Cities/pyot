@@ -20,7 +20,7 @@ def create(params):
   
 class AlphaSenseOPC_N1(peripheral.Peripheral):
 
-  # Build function, add comm to endpoints
+  # Build function, add sensors to endpoints
   def build(self, params):
     self.endpoints.add("root", AlphaSenseOPC_N1.HostSensor);
     self.endpoints.add("pm10", AlphaSenseOPC_N1.Sensor);
@@ -31,7 +31,7 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
   class HostSensor(peripheral.Sensor):
   
     def connect(self, params):
-      # As the root sensor, you need to grab the 
+      # As the root sensor, you need to grab the spi port
       self._spi = self.platform.find(params['port'], self);
 
       if (self._spi == None):
@@ -83,7 +83,10 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
           
         pr.Dbg("OPC - N1: Returning sensor data");
         return self._lastReading;
-    
+        
+      # Failed to read from sensor
+      return None;
+      
     def bytelistToFloat(self, list):
       v = list[3] + (list[2] << 8) + (list[1] << 16) + (list[0] << 24);
       return struct.unpack("f", struct.pack("!I", v))[0];
