@@ -105,10 +105,10 @@ class DavisWS(peripheral.Peripheral):
       return round(((struct.unpack_from(valType, loop, offset)[0] * co) + off), 5);
 
     # Temperature conversion functions
-    def FtoC(temp, precision):
+    def FtoC(self, temp, precision):
       return round(((temp - 32.0) * 5.0 / 9.0), precision);
   
-    def CtoF(temp, precision):
+    def CtoF(self, temp, precision):
       return round(((temp * 9.0 / 5.0) + 32.0), precision);
     
   class Sensor(peripheral.Sensor):
