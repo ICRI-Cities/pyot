@@ -6,7 +6,7 @@
 # 16-10-2015
 #
 
-
+import struct
 
 from pyotlib.classes import *
 import pyotlib.printlib as pr
