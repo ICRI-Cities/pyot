@@ -12,10 +12,6 @@ import os
 if (not("logs" in os.listdir("."))):
   print("-M- Created logs directory");
   os.mkdir("logs");
-
-# Remove old current.log file if still around
-if ("current.log" in os.listdir("logs")):
-  os.remove("logs/current.log");
   
 # Generate list of all python scripts in the directory
 scripts = [];

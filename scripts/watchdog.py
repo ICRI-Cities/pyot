@@ -21,7 +21,7 @@ def reboot():
     humanTime = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d_%H:%M:%S');
     fname = "reboot_" + epochTime + "_" + humanTime + ".log";
   
-    os.rename("logs/current.log", "logs/" + fname);
+    os.system("dmesg > logs/" + fname);
   
     logs = os.listdir("logs");
     while (len(logs) > 25):
@@ -33,6 +33,8 @@ def reboot():
 
   os.system("reboot");
   return;
+  
+pr.Msg("Watchdog script is starting up!");
   
 startTime = time.time();
 
