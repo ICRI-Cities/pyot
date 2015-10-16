@@ -60,12 +60,12 @@ class DavisWS(peripheral.Peripheral):
       return;
       
     def read(self):
-      if (self._uart != None):
+      if (self._serial != None):
         pr.Dbg("DWS: Reading from sensor...");
         
-        self._uart.write("LOOP 1\n\r");
+        self._serial.write("LOOP 1\n\r");
         
-        packet = self._uart.read(100);
+        packet = self._serial.read(100);
         
         if (packet == None):
           return None;
