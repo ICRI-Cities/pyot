@@ -75,9 +75,9 @@ class DavisWS(peripheral.Peripheral):
         data = dict();
         
         data['barometer']                    = self.getValueFromLoop(loop, 7, 'h', co=0.001);
-        data['inside_temperature']           = FtoC(self.getValueFromLoop(loop, 9, 'h', co=0.1), 5);
+        data['inside_temperature']           = self.FtoC(self.getValueFromLoop(loop, 9, 'h', co=0.1), 5);
         data['inside_humidity']              = self.getValueFromLoop(loop, 11, 'B', co=0.01);
-        data['outside_temperature']          = FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1), 5);
+        data['outside_temperature']          = self.FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1), 5);
         data['wind_speed']                   = self.getValueFromLoop(loop, 14, 'B');
         data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B');
         data['wind_direction']               = self.getValueFromLoop(loop, 16, 'H');
