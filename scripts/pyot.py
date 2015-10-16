@@ -91,7 +91,7 @@ def proTask(config, chan, timer):
         time.sleep(s['timeBetweenSamples']);
         
       samples.sort();
-      if (len(smaples) == 0):
+      if (len(samples) == 0):
         pr.Wrn("Read no valid values from sensor!");
         val = None;
       else:
