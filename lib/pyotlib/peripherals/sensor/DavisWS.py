@@ -52,7 +52,7 @@ class DavisWS(peripheral.Peripheral):
         pr.Wrn("DWS: Failed to find UART port '%s'" % params['port']);
         return;
       
-      if (not(self._serial.request({'baudrate': 19200, 'type': "USB0", 'timeout': param['timeout']}))):
+      if (not(self._serial.request({'baudrate': 19200, 'port': "/dev/ttyUSB0", 'timeout': param['timeout']}))):
         pr.Wrn("DWS: Failed to connect to given UART port");
         self._spi = None;
         return;

@@ -34,7 +34,7 @@ class GalileoPlatform(peripheral.Peripheral):
     #  self.pins.assign(self.endpoints.add(("ain%d" % (i - 14)), GalileoPlatform.AIN), [i]);
     #self.pins.assign(self.endpoints.add("i2c1", GalileoPlatform.I2C), [20, 21]);
     self.pins.assign(self.endpoints.add("spi1", GalileoPlatform.SPI), [10, 11, 12, 13]);
-    #self.pins.assign(self.endpoints.add("uart2", GalileoPlatform.UART), [22]);
+    self.pins.assign(self.endpoints.add("uart2", GalileoPlatform.UART), [22]);
     #self.pins.assign(self.endpoints.add("uart1", GalileoPlatform.UART), [0, 1]);
     
     return;
@@ -109,4 +109,47 @@ class GalileoPlatform(peripheral.Peripheral):
     # SPI functions
     def transfer(self, val):
       return self._spi.writeByte(val);
-                    
+      
+  # UART Class for Galileo (uses pyserial to do everything)
+  class UART(interface.UART):
+  
+    # Request function
+    def request(self, params):
+      if (not(self.pins.request(self))):
+        return False;
+      
+      # Form dict with all params
+      serialParams = {};
+      if ("baudrate" in params):
+        serialParams['baudrate'] = params['baudrate'];
+      else:
+        serialParams['baudrate'] = 9600;
+      
+      if ("timeout" in params):
+        serialParams['timeout'] = params['timeout'];
+      else:
+        serialParams['timeout'] = 10;
+        
+      # Need to create serial object here to deal with params
+      try:
+        self._uart = serial.Serial(params['port'], 
+                                   baudrate=serialParams['baudrate'], 
+                                   timeout=serialParams['timeout']);
+      except:
+        return False;
+
+      return True;
+
+    # UART functions
+    def read(self, bytes):
+      val = self._uart.read(bytes);
+      if (len(val) != bytes):
+        return None;
+      else:
+        return val;
+        
+    def write(self, s):
+      self._uart.write(s);
+      self._uart.flush();
+      return;
+      
