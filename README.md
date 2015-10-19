@@ -26,4 +26,57 @@ Once all of these phases completes, the PyoT framework is ready to being reading
 ## Usage
 In terms of usage, one should run the main.py script. This will automatically start up any python scripts (.py) in the scripts directory with the arguments provided in the .arg file of the same name (for example, name.py will be started with the arguments provided in name.arg if the file exists). The scripts are run in the background and all output from the scripts will be sent to `/dev/kmsg`. main.py should be run at boot, as some scripts might reboot the machine in certain scenarios (for example, the watchdog.py script will reboot the system periodically as well as if internet is lost or the script pyot.py is killed).
 
-The most important part of setting up pyot to run smoothly is providing the correct configuration. This file is a JSON file will certain parameters and is a commandline argument of pyot.py. An example of this file is provided in the config directory. Note that is has a few parameters for how long to wait before sampling all sensors to send to the backend as well as how long to wait before sending all these readings to the backend. The list of objects in the `sensors` list are those sensors that will be sent to all backends, where name is some unique name usually used in IoT platforms to identify a timeseries, path is the full path to the endpoint of the sensor from which to take readings, and numSamples and timeBetweenSamples are used to sample the sensor and take a median value to avoid sending random spike readings to the backend. These backends are specified in the iot list, where the name is some unique name and the path is the full path to the comm endpoint to use to send data. Finally, the platform object contains the entire hierarchy, with a peripheral object. Peripherals have the following parameters: name, a name to use in the path hierarchy (unique among children of a single node, just like directories in most file systems); class, the class to use (from pyotlib.peripherals package) for the peripheral object (note, pyot.py will call {class}.create(params)); peripherals, a list of more peripheral object that are the children of the current peripheral object; params, a object containing objects will the names of the endpoints as parameters (or "." to refer to the peripheral itself), each with a params object. A params object contains three parameters, build, connect and init, which refer to objects with whatever parameters (these depend on the class and are class-specific) are needed at each of these stages for the module whose name appears as a parameter for the given param object.
+The most important part of setting up pyot to run smoothly is providing the correct configuration. This file is a JSON file will certain parameters and is a commandline argument of pyot.py. An example of this file is provided in the config directory. Note that is has a few parameters for how long to wait before sampling all sensors to send to the backend as well as how long to wait before sending all these readings to the backend. The list of objects in the sensors list are those sensors that will be sent to all backends, where name is some unique name usually used in IoT platforms to identify a timeseries and path is the full path to the endpoint of the sensor from which to take readings. These backends are specified in the iot list, where the name is some unique name and the path is the full path to the comm endpoint to use to send data. Finally, the platform object contains the entire hierarchy, with a peripheral object. Peripherals have the following parameters: name, a name to use in the path hierarchy (unique among children of a single node, just like directories in most file systems); class, the class to use (from pyotlib.peripherals package) for the peripheral object (note, pyot.py will call `{class}.create(params)`); peripherals, a list of more peripheral object that are the children of the current peripheral object; params, a object containing objects will the names of the endpoints as parameters (or "." to refer to the peripheral itself), each with a params object. A params object contains three parameters, build, connect and init, which refer to objects with whatever parameters (these depend on the class and are class-specific) are needed at each of these stages for the module whose name appears as a parameter for the given param object.
+
+## Full Descriptions
+
+### Configuration File
+
+##### Main
+`threadRestartRate` - Time in between checks to be sure threads used to read data from sensors and send data to the backend are checked for liveness (and restarted if they've been killed). [seconds]
+
+`sensorSampleRate` - Rate at which the sampling thread will attempt to sample the sensors provided in the sensors list. [seconds]
+
+`iotSendRate` - Rate at which the sending thread will attempt to send the sensor data to the IoT backends. [in seconds]
+
+`timer` - Path to an object to read to get the timestamp for data sent to the backend, note that "default" will use the node's system time. [path]
+  
+`sensors` - List of `sensor` objects whose readings will be sent to the backends given in the `iot` list. [list]
+
+`iot` - List of `iot` objects that readings from the sensors given in the `sensors` list. [list]
+
+`platform` - A `peripheral` object that serves as the base for the hierarchy. [object]
+
+##### Sensor Object
+`name` - A unique name, usually an uuid from the IoT backend. [string]
+
+`path` - Path to the sensor endpoint from which to take readings. [path]
+
+`numSamples` - The number of samples to take for a single reading cycle. The median of these samples is used as the actual value. [number]
+
+`timeBetweenSamples` - The time between taking samples during a reading cycle. [seconds]
+
+  
+##### IoT Ojbect
+`name` - A unique name. [string]
+
+`path` - Path to the comm endpoint to use to send readings. [path]
+
+##### Peripheral Object
+`name` - Name to use for this peripheral in the hierarchy (cannot be shared with any other peripheral sharing the same parent, but can be shared otherwise). [string]
+
+`class` - Python class to use within the pyotlib.peripherals package that implements this peripheral. [class]
+
+`params` - A `paramslist` object, which defines the various parameters for each stage of the abstraction construction for the endpoint defined by the parameter in the `paramlist`. [object]
+
+`peripherals` - List of the children peripherals of this peripheral. [object]
+
+##### ParamsList Object
+`*` - A `params` object for any endpoint of the current peripheral (or "." for the current peripheral itself). Optional (`params` in the `peripheral` object may be left an empty object). [object]
+
+##### Params Object
+`build` - An object containing all the parameters to pass into the `build` method of the module specified by the parameter of the `paramslist` object to which this object is the child. Module-specific. [object]
+
+`connect` - An object containing all the parameters to pass into the `connect` method of the module specified by the parameter of the `paramslist` object to which this object is the child. Module-specific. [object]
+
+`init` - An object containing all the parameters to pass into the `init` method of the module specified by the parameter of the `paramslist` object to which this object is the child. Module-specific. [object]
