@@ -32,7 +32,9 @@ The most important part of setting up pyot to run smoothly is providing the corr
 
 ### Configuration File
 
-##### Main
+Configuration files contain a single `root` object.
+
+##### Root Object
 `threadRestartRate` - Time in between checks to be sure threads used to read data from sensors and send data to the backend are checked for liveness (and restarted if they've been killed). [seconds]
 
 `sensorSampleRate` - Rate at which the sampling thread will attempt to sample the sensors provided in the sensors list. [seconds]
