@@ -59,7 +59,7 @@ Configuration files contain a single `root` object.
 `timeBetweenSamples` - The time between taking samples during a reading cycle. [seconds]
 
   
-##### IoT Ojbect
+##### IoT Object
 `name` - A unique name. [string]
 
 `path` - Path to the comm endpoint to use to send readings. [path]
@@ -82,3 +82,55 @@ Configuration files contain a single `root` object.
 `connect` - An object containing all the parameters to pass into the `connect` method of the module specified by the parameter of the `paramslist` object to which this object is the child. Module-specific. [object]
 
 `init` - An object containing all the parameters to pass into the `init` method of the module specified by the parameter of the `paramslist` object to which this object is the child. Module-specific. [object]
+
+### pyotlib Package
+
+
+
+### Main Package
+
+These modules are all part of the pyotlib package proper.
+
+##### tree
+
+This module is responsible for managing the hierarchy; most likely users will not need to modify or use this module.
+
+##### channel
+
+This module provides a producer-consumer queue interface between the sensor reading thread (producer) and backend ending thread (consumer). Most likely, users will not need to modify or use this class. However, as it currently uses a Python Queue, users might want to improve this class to use something that can survive reboots; so long as the API for the channel is unchanged.
+
+##### printlib
+
+This module enables printing for and module. Users should use this module over calling Python's print natively.
+
+`Msg(string)` - Prints an informational message given by string.
+
+`Wrn(string)` - Prints a warning message given by string.
+
+`Err(string)` - Prints an error message given by string. Will also print the stacktrace iff `debug` is set.
+
+`Dbg(string)` - Prints a debug message given by string iff `debug` is set.
+
+#### classes Package
+
+These modules are part of the pyotlib.classes package.
+
+##### interface
+
+Contains several important base classes for port protocols.
+
+##### peripheral
+
+Contains several important base classes for creating peripherals.
+
+##### pin
+
+Contains the `Pins` class, which is used for keeping track of the physical pins used by a peripheral or endpoint. There should only be one `Pins` object per peripheral.
+
+`Pins(pinList)` - Creates a new `Pins` object, which manages a list of pins in the given list. Note that pins in the list should be integers.
+
+`Pins.assign(obj, pins)` - Assigns the pins in the `pins` list to the given object, usually an endpoint. This function is needed for calls to `Pins.request` to work correctly, and creates a reference to this `Pins` object as `obj.pins`. `pins` must be a subset of the pin list given to the constructor.
+
+`Pins.request(obj, pins)` - Marks the given pins in the list `pins` as being used. Returns `True` if successful or `False` is some of the requested pins are already in use. If `pins` is left out, all the pins assigned to the given object are requested.
+
+`Pins.getPins(obj)` - Returns a list of all the pins assigned to the given object.
