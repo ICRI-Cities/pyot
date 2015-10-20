@@ -127,9 +127,9 @@ Contains several important base classes for port protocols. These classes are ab
 
 `UART.request` parameters:
 
-`baudrate` - [Optional] Baudrate (number) for the serial connection. Default is 9600.
+- `baudrate` - [Optional] Baudrate (number) for the serial connection. Default is 9600.
 
-`timeout` - [Optional] Timeout for serial reads in seconds. Default is 10.
+- `timeout` - [Optional] Timeout for serial reads in seconds. Default is 10.
 
 
 
@@ -141,9 +141,9 @@ Contains several important base classes for port protocols. These classes are ab
 
 `GPIO.request` parameters:
 
-`dir` - [Optional] Either "IN" (default) or "OUT".
+- `dir` - [Optional] Either "IN" (default) or "OUT".
 
-`mode` - [Optional] Either "PULLUP" or "PULLDOWN" or "FLOAT" (default).
+- `mode` - [Optional] Either "PULLUP" or "PULLDOWN" or "FLOAT" (default).
 
 
 
@@ -153,11 +153,11 @@ Contains several important base classes for port protocols. These classes are ab
 
 `SPI.request` parameters:
 
-`mode` - Mode of SPI (CPHA, CPOL), numbered 0 through 3.
+- `mode` - Mode of SPI (CPHA, CPOL), numbered 0 through 3.
 
-`frequency` - [Optional] Frequency of the SPI connection in Hz. Default is 5 MHz.
+- `frequency` - [Optional] Frequency of the SPI connection in Hz. Default is 5 MHz.
 
-`lsbmode` - [Optional] If `True`, send LSb first, otherwise send MSb first. Default is `False`.
+- `lsbmode` - [Optional] If `True`, send LSb first, otherwise send MSb first. Default is `False`.
 
 
 
