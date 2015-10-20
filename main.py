@@ -1,3 +1,5 @@
+#!/usr/lib/python
+
 #
 # PyoT (Main)
 #
