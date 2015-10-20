@@ -117,11 +117,43 @@ These modules are part of the pyotlib.classes package.
 
 ##### interface
 
-Contains several important base classes for port protocols.
+Contains several important base classes for port protocols. These classes are abstract and do not provide an implementation. Endpoints in the peripherals package serve as implementations.
+
+`UART` - An extension of the `Port` class to implement UART serial interfaces.
+
+`UART.read(bytes)` - Reads `bytes` bytes from the serial interface or returns `None` on failure.
+
+`UART.write(s)` - Writes a string `s` to the serial interface.
+
+`GPIO` - An extension of the `Port` class to implement GPIO.
+
+`GPIO.read()` - Reads the value from the pin. Returns `None` on failure.
+
+`GPIO.write(val)` - Write the value `val` to the pin.
+
+`SPI` - An extension of the `Port` class to implement SPI.
+
+`SPI.transfer(val)` - Pushes `val` out the MOSI line and returns the value pulled in the MISO line, or `None` on failure.
+
+`I2C` - An extension of the `Port` class to implement I2C.
+
+`I2C.setAddr(addr)` - Sets the slave address to use.
+
+`I2C.readReg(reg)` - Reads from the given register and returns its value, or `None` on failure.
+
+`I2C.writeReg(reg, val)` - Writes to a given register.
+
+`AIN` - An extension of the `Port` class to implement ADC.
+
+`AIN.read()` - Reads from the given ADC and returns a value from 0 to 65535. Note that the precision is dictated by that of the ADC hardware. Returns `None` on failure.
 
 ##### peripheral
 
-Contains several important base classes for creating peripherals.
+Contains several important base classes for creating peripherals. These classes are abstract and do not provide an implementation. Peripherals and endpoints in the peripherals package serve as implementations unless otherwise noted.
+
+`Peripheral` - Main peripheral base class, must by used as the superclass of any peripheral implementations.
+
+`Peripheral.name()` - Returns the name of the peripheral. This has been implemented.
 
 ##### pin
 
