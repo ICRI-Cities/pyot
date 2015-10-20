@@ -125,15 +125,28 @@ Contains several important base classes for port protocols. These classes are ab
 
 `UART.write(s)` - Writes a string `s` to the serial interface.
 
+`UART.request` parameters:
+`baudrate` - [Optional] Baudrate (number) for the serial connection. Default is 9600.
+`timeout` - [Optional] Timeout for serial reads in seconds. Default is 10.
+
 `GPIO` - An extension of the `Port` class to implement GPIO.
 
 `GPIO.read()` - Reads the value from the pin. Returns `None` on failure.
 
 `GPIO.write(val)` - Write the value `val` to the pin.
 
+`GPIO.request` parameters:
+`dir` - [Optional] Either "IN" (default) or "OUT".
+`mode` - [Optional] Either "PULLUP" or "PULLDOWN" or "FLOAT" (default).
+
 `SPI` - An extension of the `Port` class to implement SPI.
 
 `SPI.transfer(val)` - Pushes `val` out the MOSI line and returns the value pulled in the MISO line, or `None` on failure.
+
+`SPI.request` parameters:
+`mode` - Mode of SPI (CPHA, CPOL), numbered 0 through 3.
+`frequency` - [Optional] Frequency of the SPI connection in Hz. Default is 5 MHz.
+`lsbmode` - [Optional] If `True`, send LSb first, otherwise send MSb first. Default is `False`.
 
 `I2C` - An extension of the `Port` class to implement I2C.
 
