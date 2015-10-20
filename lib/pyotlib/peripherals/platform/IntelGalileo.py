@@ -101,9 +101,7 @@ class GalileoPlatform(peripheral.Peripheral):
       
       if ("lsbmode" in params):
         self._spi.lsbmode(params['lsbmode']);
-        
-      #r = self._spi.writeByte(0x0c);
-      #pr.Dbg("Test: %d" % r);
+
       return True;
         
     # SPI functions
