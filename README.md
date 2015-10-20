@@ -212,3 +212,28 @@ Contains the `Pins` class, which is used for keeping track of the physical pins 
 `Pins.request(obj, pins)` - Marks the given pins in the list `pins` as being used. Returns `True` if successful or `False` is some of the requested pins are already in use. If `pins` is left out, all the pins assigned to the given object are requested.
 
 `Pins.getPins(obj)` - Returns a list of all the pins assigned to the given object.
+
+#### peripherals Package
+
+These packages are all part of the pyotlib.peripherals package.
+
+All modules in this package must implement the following method:
+
+`*.create(params)` - Method that is called to create the peripheral this module represents. Should return the object of that peripheral.
+
+##### backend Package
+
+This package should contain any and all modules for peripherals that are primarily backend comms.
+
+##### breakout Package
+
+This package should contain any and all modules for peripherals that are primarily breakout boards, ie peripherals that primarily add/convert ports.
+
+##### platform Package
+
+This package should contain any and all modules for peripherals that are primarily root platforms, such as Galileo or Edison.
+
+##### sensors Package
+
+This package should contain any and all modules for peripherals that are primarily sensors.
+
