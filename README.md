@@ -155,6 +155,52 @@ Contains several important base classes for creating peripherals. These classes 
 
 `Peripheral.name()` - Returns the name of the peripheral. This has been implemented.
 
+`Peripheral.path()` - Returns the path to the peripheral, not including the peripheral name itself. This has been implemented.
+
+`Peripheral.fullname()` - Returns the full path to the peripheral, including the name. This has been implemented.
+
+`Peripheral.build(params)` - Called during the build phase of creating the hierarchy abstraction. Takes in the various parameters from the configuration file, if they exist, or an empty dictionary otherwise. Default implementation does nothing, so it should be over-ridden if needed.
+
+`Peripheral.connect(params)` - Called during the connect phase of creating the hierarchy abstraction. Takes in the various parameters from the configuration file, if they exist, or an empty dictionary otherwise. Default implementation does nothing, so it should be over-ridden if needed.
+
+`Peripheral.init(params)` - Called during the init phase of creating the hierarchy abstraction. Takes in the various parameters from the configuration file, if they exist, or an empty dictionary otherwise. Default implementation does nothing, so it should be over-ridden if needed.
+
+`Endpoint` - Main endpoint base class, serves as a common ancestor class to all endpoints.
+
+`Endpoint.name()` - Returns the name of the endpoint. This has been implemented.
+
+`Endpoint.path()` - Returns the path to the endpoint, not including the endpoint name itself. This has been implemented.
+
+`Endpoint.fullname()` - Returns the full path to the endpoint, including the name. This has been implemented.
+
+`Endpoint.build(params)` - Called during the build phase of creating the hierarchy abstraction. Takes in the various parameters from the configuration file, if they exist, or an empty dictionary otherwise. Default implementation does nothing, so it should be over-ridden if needed.
+
+`Endpoint.connect(params)` - Called during the connect phase of creating the hierarchy abstraction. Takes in the various parameters from the configuration file, if they exist, or an empty dictionary otherwise. Default implementation does nothing, so it should be over-ridden if needed.
+
+`Endpoint.init(params)` - Called during the init phase of creating the hierarchy abstraction. Takes in the various parameters from the configuration file, if they exist, or an empty dictionary otherwise. Default implementation does nothing, so it should be over-ridden if needed.
+
+`Endpoint.request(params)` - Called to request access to an endpoint, returns `True` if the endpoint is available or `False` otherwise. Typically used during the connect phase to ensure a given port or other endpoint can be used by the caller. Default implementation always returns `True`, so it should be over-ridden if needed.
+
+`Sensor` - Base class for any sensor endpoint; has superclass `Endpoint`.
+
+`Sensor.read()` - Abstract method that should return a floating point number representing a measurement from that sensor, or `None` on failure.
+
+`GroupSensor` - Base class for any group sensor endpoints; has superclass `Endpoint`. This class is for any peripherals for whom multiple sensor readings come in a single packet from the physical sensor; enabling users to create a single group sensor to do a reading instead of the many individual sensors doing individual readings. Note that this type of sensor cannot be used as a sensor for the reading thread to read (ie, cannot appear in the `sensors` list of the configuration.
+
+`GroupSensor.read()` - Abstract method that should return a dictionary of floating point numbers representing measurements from the sensors in the group, or `None` on failure.
+
+`Actuator` - Base call for any actuation endpoint; has superclass `Endpoint`.
+
+`Actuator.write(val)` - Abstract method that should result in the actuator taking on a state based on `val`, a floating point number.
+
+`Comm` - Base class for any communication endpoint; has superclass `Endpoint`.
+
+`Comm.send(val)` - Abstract method for sending a reading to the IoT backend. `val` is a dictionary containing `ts` (a timestamp for the reading), `val` (the value of the reading) and `name` (the name of the object/sensor that took the reading). Returns `True` on success or `False` on failure. If the value fails to be sent to the backend (ie, this method returns `False`), the `val` will be passed in again during the next loop of the sending thread to retry getting the value into the backend.
+
+`Comm.poll()` - Abstract method for seeing if any actuations need to be preformed. Should return a dictionary will keys as the names of the actuators and values of the value that actuator should take on.
+
+`Port` - Base call of all interface ports; has superclass `Endpoint`.
+
 ##### pin
 
 Contains the `Pins` class, which is used for keeping track of the physical pins used by a peripheral or endpoint. There should only be one `Pins` object per peripheral.

@@ -28,7 +28,7 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
     self.endpoints.add("pm100", AlphaSenseOPC_N1.Sensor);
     return;
     
-  class HostSensor(peripheral.Sensor):
+  class HostSensor(peripheral.GroupSensor):
   
     def connect(self, params):
       # As the root sensor, you need to grab the spi port

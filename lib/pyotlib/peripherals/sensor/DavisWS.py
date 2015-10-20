@@ -42,7 +42,7 @@ class DavisWS(peripheral.Peripheral):
     self.endpoints.add("console_battery_voltage", DavisWS.Sensor);
     return;
   
-  class HostSensor(peripheral.Sensor):
+  class HostSensor(peripheral.GroupSensor):
   
     def connect(self, params):
       # As the root sensor, you need to grab the UART port

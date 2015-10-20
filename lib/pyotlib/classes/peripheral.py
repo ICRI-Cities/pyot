@@ -166,6 +166,14 @@ class Sensor(Endpoint):
   def read(self):
     pass;
    
+# Base class for group sensor objects
+class GroupSensor(Endpoint):
+  __metaclass__ = ABCMeta;
+    
+  @abstractmethod
+  def read(self):
+    pass;   
+   
 # Base class for actuator objects
 class Actuator(Endpoint):
   __metaclass__ = ABCMeta;
@@ -179,7 +187,7 @@ class Comm(Endpoint):
   __metaclass__ = ABCMeta;
     
   @abstractmethod
-  def send(self, vals):
+  def send(self, val):
     pass;
   
   @abstractmethod
