@@ -32,7 +32,7 @@ class GalileoPlatform(peripheral.Peripheral):
       self.pins.assign(self.endpoints.add(("gpio%d" % i), GalileoPlatform.GPIO), [i]);
     #for i in xrange(14, 20):
     #  self.pins.assign(self.endpoints.add(("ain%d" % (i - 14)), GalileoPlatform.AIN), [i]);
-    #self.pins.assign(self.endpoints.add("i2c1", GalileoPlatform.I2C), [20, 21]);
+    self.pins.assign(self.endpoints.add("i2c1", GalileoPlatform.I2C), [20, 21]);
     self.pins.assign(self.endpoints.add("spi1", GalileoPlatform.SPI), [10, 11, 12, 13]);
     self.pins.assign(self.endpoints.add("uart2", GalileoPlatform.UART), [22]);
     self.pins.assign(self.endpoints.add("uart1", GalileoPlatform.UART), [0, 1]);
@@ -149,5 +149,31 @@ class GalileoPlatform(peripheral.Peripheral):
     def write(self, s):
       self._uart.write(s);
       self._uart.flush();
+      return;
+      
+  # I2C Class for Galileo (uses mraa to do everything)
+  class I2C(interface.I2C):
+  
+    # Request function
+    def request(self, params):
+      if (not(self.pins.request(self))):
+        return False;
+      
+      # Create i2c object; again really should be in build, but libmraa doesnt like that
+      self._i2c(6);
+      self._i2c.address(0x00);
+
+      return True;
+
+    # I2C functions
+    def setAddr(self, addr):
+      self._i2c.address(addr);
+      return;
+    
+    def readReg(self, reg):
+      return self._i2c.readReg(reg);
+        
+    def writeReg(self, reg, val):
+      self._i2c.writeReg(reg, val);
       return;
       
