@@ -54,7 +54,7 @@ class Endpoints(object):
     
     self._endpoints = dict();
     
-  def add(self, name, type):
+  def add(self, name, t):
     if (name in self._endpoints):
       return None;
       
@@ -63,7 +63,7 @@ class Endpoints(object):
     else:
       params = {'build': {}, 'connect': {}, 'init': {}};
       
-    self._endpoints[name] = type(self._parent, self._path, name, self._platform, params);
+    self._endpoints[name] = t(self._parent, self._path, name, self._platform, params);
     
     return self._endpoints[name];
     
@@ -83,7 +83,7 @@ class Endpoints(object):
       while (not(t in ["Sensor", "Port", "Actuator", "GroupSensor", "Comm", "Endpoint"])):
         cl = cl.__bases__[0];
         t = cl.__name__;
-      pr.Msg("%s (%s)" % (e.name(), t));
+      pr.Msg("%s (%s)" % (self._endpoints[ep].name(), t));
       
     return;
     
