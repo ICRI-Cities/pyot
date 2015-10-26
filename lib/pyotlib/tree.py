@@ -76,10 +76,14 @@ class Endpoints(object):
    
   def enumerate(self):
     pr.Msg("Endpoints for this peripheral are:");
-    for e in self._endpoints:
+    for ep in self._endpoints:
       # Generate path list
-      type = "";
-      pr.Msg("%s (%s)" % (e.name(), type));
+      cl = type(self._endpoints[ep]);
+      t = cl.__name__;
+      while (not(t in ["Sensor", "Port", "Actuator", "GroupSensor", "Comm", "Endpoint"])):
+        cl = cl.__bases__[0];
+        t = cl.__name__;
+      pr.Msg("%s (%s)" % (e.name(), t));
       
     return;
     
