@@ -43,6 +43,8 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
         self._spi = None;
         return;
         
+        
+      pr.Msg("!!! %s" % (AlphaSenseOPC_N1.HostSensor.__bases__[0].__name__));
       return;
     
     def init(self, params):

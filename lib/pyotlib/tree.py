@@ -68,11 +68,20 @@ class Endpoints(object):
     return self._endpoints[name];
     
   def find(self, name):
-   if (name in self._endpoints):
-     pr.Dbg("Found: %s" % name);
-     return self._endpoints[name];
+    if (name in self._endpoints):
+      pr.Dbg("Found: %s" % name);
+      return self._endpoints[name];
      
-   return None;
+    return None;
+   
+  def enumerate(self):
+    pr.Msg("Endpoints for this peripheral are:");
+    for e in self._endpoints:
+      # Generate path list
+      type = "";
+      pr.Msg("%s (%s)" % (e.name(), type));
+      
+    return;
     
   # Phases
   def build(self):
