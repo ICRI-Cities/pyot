@@ -21,7 +21,7 @@ def main(args):
                  'path': "",
                  'params': {},
                  'peripherals': []};
-  obj = modules.create(fake_params);
+  obj = module.create(fake_params);
   obj.build();
   obj.endpoints.enumerate();
   return;
