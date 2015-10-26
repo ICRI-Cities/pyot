@@ -22,7 +22,7 @@ def main(args):
                  'params': {},
                  'peripherals': []};
   obj = module.create(fake_params);
-  obj.build();
+  obj.build({});
   obj.endpoints.enumerate();
   return;
   
