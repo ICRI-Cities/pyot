@@ -30,7 +30,7 @@ class HC_SR04(peripheral.Peripheral):
         pr.Wrn("HC-SR04: Failed to find I2C port '%s'" % params['port']);
         return;
       
-      if (not(self._i2c.request())):
+      if (not(self._i2c.request({}))):
         pr.Wrn("HC-SR04: Failed to connect to given I2C port");
         self._i2c = None;
         return;

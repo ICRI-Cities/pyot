@@ -160,7 +160,7 @@ class GalileoPlatform(peripheral.Peripheral):
         return False;
       
       # Create i2c object; again really should be in build, but libmraa doesnt like that
-      self._i2c(6);
+      self._i2c = mraa.I2c(0);
       self._i2c.address(0x00);
 
       return True;
