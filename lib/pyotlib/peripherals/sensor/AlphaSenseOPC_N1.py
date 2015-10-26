@@ -42,9 +42,7 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
         pr.Wrn("OPC - N1: Failed to connect to given SPI port");
         self._spi = None;
         return;
-        
-        
-      pr.Msg("!!! %s" % (AlphaSenseOPC_N1.HostSensor.__bases__[0].__name__));
+
       return;
     
     def init(self, params):
