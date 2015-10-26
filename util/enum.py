@@ -10,6 +10,9 @@ import sys
 import importlib
 
 def main(args):
+  if (len(args) != 0):
+    print("Please provide a single class to enumerate");
+    return;
   print("Enumerating endpoints for %s" % args[0]);
   module = importlib.import_module("pyotlib.peripherals." + args[0]);
   fake_params = {'platform': "", 
