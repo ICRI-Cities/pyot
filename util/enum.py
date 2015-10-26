@@ -10,7 +10,7 @@ import sys
 import importlib
 
 def main(args):
-  if (len(args) != 0):
+  if (len(args) != 1):
     print("Please provide a single class to enumerate");
     return;
   print("Enumerating endpoints for %s" % args[0]);
