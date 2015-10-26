@@ -20,7 +20,7 @@ def main(args):
                  'name': "",
                  'path': "",
                  'params': {},
-                 'peripherals': []);
+                 'peripherals': []};
   obj = modules.create(fake_params);
   obj.build();
   obj.endpoints.enumerate();
