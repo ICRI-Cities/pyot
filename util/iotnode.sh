@@ -12,5 +12,4 @@ echo "-!- Beginning IoTNode tasks" > /dev/kmsg
 
 # Run background tasks
 cd /home/root/pyot
-PYTHONPATH="/home/root/pyot/lib"
 python main.py
