@@ -87,7 +87,7 @@ def proTask(config, chan, timer):
       for sample in xrange(s['numSamples']):
         val = s['sensor'].read();
         if (not(val == None)):
-          samples.append(s['sensor'].read());
+          samples.append(val);
         time.sleep(s['timeBetweenSamples']);
         
       samples.sort();
@@ -149,7 +149,7 @@ def conTask(config, chan):
       # Pull off an item to send
       item = chan.get();
       
-      pr.Dbg("Sending reading: %s" + str(item));
+      pr.Dbg("Sending reading: %s" % str(item));
       
       for comm in iotBackends:
         pr.Dbg("Sending to backend '%s'" % comm['comm'].fullname());
