@@ -68,6 +68,7 @@ class DavisWS(peripheral.Peripheral):
         packet = self._serial.read(100);
         
         if (packet == None):
+          pr.Wrn("DWS: Failed to read packet");
           return None;
         
         # Trim off ACK
@@ -98,6 +99,7 @@ class DavisWS(peripheral.Peripheral):
         return data;
         
       # Failed to read from sensor
+      pr.Wrn("DWS: Failed to connect to serial");
       return None; 
     
     # Parses out data from the packet
@@ -123,4 +125,5 @@ class DavisWS(peripheral.Peripheral):
       if (val != None):
         return val[self.name()];
       else:
+        pr.Wrn("DWS: Failed to read %s" % self.name());
         return None;

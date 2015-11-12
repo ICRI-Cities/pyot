@@ -106,6 +106,8 @@ def proTask(config, chan, timer):
         item = {'name': s['name'], 'ts': ts, 'val': val, 'sent': [False] * len(config['iot'])};
         pr.Dbg("Putting '%s' into the channel" % str(item));
         chan.put(item);
+      else:
+        pr.Dbg("Nothing to put in channel...");
     
     chan.unlock();
     
