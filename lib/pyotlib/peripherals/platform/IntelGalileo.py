@@ -141,6 +141,7 @@ class GalileoPlatform(peripheral.Peripheral):
     # UART functions
     def read(self, bytes):
       val = self._uart.read(bytes);
+      pr.Dbg("UART: Read out %d bytes (wanted %d bytes); '%s'" % (len(val), bytes, val));
       if (len(val) != bytes):
         return None;
       else:
