@@ -6,6 +6,7 @@
 # 16-10-2015
 #
 
+import os
 import struct
 
 from pyotlib.classes import *
@@ -52,9 +53,21 @@ class DavisWS(peripheral.Peripheral):
         pr.Wrn("DWS: Failed to find UART port '%s'" % params['port']);
         return;
       
-      if (not(self._serial.request({'baudrate': 19200, 'port': "/dev/ttyUSB0", 'timeout': params['timeout']}))):
+      # Find the USB port
+      usbPort = None;
+      for f in os.listdir("/dev"):
+        if (f.startswith("ttyUSB")):
+          usbPort = f;
+          break;
+      
+      if (usbPort == None):
+        pr.Wrn("DWS: No USB Serial port found in /dev");
+        self._serial = None;
+        return;
+      
+      if (not(self._serial.request({'baudrate': 19200, 'port': usbPort, 'timeout': params['timeout']}))):
         pr.Wrn("DWS: Failed to connect to given UART port");
-        self._spi = None;
+        self._serial = None;
         return;
         
       return;
