@@ -7,6 +7,7 @@
 #
 
 import os
+import time
 import struct
 
 from pyotlib.classes import *
@@ -77,6 +78,8 @@ class DavisWS(peripheral.Peripheral):
         pr.Dbg("DWS: Reading from sensor...");
         
         self._serial.write("LOOP 1\n\r");
+        
+        time.sleep(0.1);
         
         packet = self._serial.read(100);
         
