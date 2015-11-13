@@ -57,7 +57,7 @@ class DavisWS(peripheral.Peripheral):
       usbPort = None;
       for f in os.listdir("/dev"):
         if (f.startswith("ttyUSB")):
-          usbPort = f;
+          usbPort = "/dev/" + f;
           break;
       
       if (usbPort == None):
