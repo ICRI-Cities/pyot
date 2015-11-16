@@ -170,7 +170,7 @@ class DavisWS(peripheral.Peripheral):
                   0x6e17, 0x7e36, 0x4e55, 0x5e74, 0x2e93, 0x3eb2, 0x0ed1, 0x1ef0];
                   
       for c in v:
-        lC = c & 0xff;
+        lC = ord(c) & 0xff;
         lCrc = crc & 0xffff;
         crc = crcTable[((lCrc >> 8) ^ lC) & 0xff] ^ ((lCrc << 8) & 0xffff);
         
