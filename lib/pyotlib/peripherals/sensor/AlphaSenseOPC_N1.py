@@ -52,13 +52,14 @@ class AlphaSenseOPC_N1(peripheral.Peripheral):
         self._spi.transfer(0x0C);
         
       self._timeBetweenSamples = params['minTimeBetweenSamples'];
-      self._lastRead = time.time() - (2 * self._timeBetweenSamples);
+      self._lastRead = 0;
+      self._lastReading = None;
 
       return;
       
     def read(self):
       if (self._spi != None):
-        if (time.time() > (self._lastRead + self._timeBetweenSamples)):
+        if ((self._lastReading == None) or (time.time() > (self._lastRead + self._timeBetweenSamples))):
           pr.Dbg("OPC - N1: Reading from sensor...");
         
           # Be sure the fan is on
