@@ -116,6 +116,8 @@ class DavisWS(peripheral.Peripheral):
           self._data['year_et']                      = self.getValueFromLoop(loop, 60, 'H', co=0.01);
           self._data['transmitter_battery_status']   = self.getValueFromLoop(loop, 86, 'B');
           self._data['console_battery_voltage']      = self.getValueFromLoop(loop, 87, 'H', co=0.005859);
+          
+          self._lastRead = time.time();
         
         pr.Dbg("DWS: Returning data");
         return self._data;
