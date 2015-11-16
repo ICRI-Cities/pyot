@@ -73,46 +73,52 @@ class DavisWS(peripheral.Peripheral):
         
       return;
       
+    def init(self, params):
+      self._timeBetweenSamples = 10;
+      self._lastRead = time.time() - 20;
+      
     def read(self):
       if (self._serial != None):
-        pr.Dbg("DWS: Reading from sensor...");
+        if (time.time() > (self._lastRead + self._timeBetweenSamples)):
+          pr.Dbg("DWS: Reading from sensor...");
+          
+          self._serial.write("LOOP 1\n\r");
+          
+          time.sleep(0.1);
+          
+          packet = self._serial.read(100);
+          
+          if (packet == None):
+            pr.Wrn("DWS: Failed to read packet");
+            return None;
+          
+          # Trim off ACK
+          loop = packet[1:];
+          self._data = dict();
+          
+          self._data['barometer']                    = self.getValueFromLoop(loop, 7, 'h', co=0.001);
+          self._data['inside_temperature']           = self.FtoC(self.getValueFromLoop(loop, 9, 'h', co=0.1), 5);
+          self._data['inside_humidity']              = self.getValueFromLoop(loop, 11, 'B', co=0.01);
+          self._data['outside_temperature']          = self.FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1), 5);
+          self._data['wind_speed']                   = self.getValueFromLoop(loop, 14, 'B');
+          self._data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B');
+          self._data['wind_direction']               = self.getValueFromLoop(loop, 16, 'H');
+          self._data['outside_humidity']             = self.getValueFromLoop(loop, 33, 'B', co=0.01);
+          self._data['rain_rate']                    = self.getValueFromLoop(loop, 41, 'H');
+          self._data['uv']                           = self.getValueFromLoop(loop, 43, 'B');
+          self._data['solar_radiation']              = self.getValueFromLoop(loop, 44, 'H');
+          self._data['storm_rain']                   = self.getValueFromLoop(loop, 46, 'H', co=0.01);
+          self._data['day_rain']                     = self.getValueFromLoop(loop, 50, 'H', co=0.01);
+          self._data['month_rain']                   = self.getValueFromLoop(loop, 52, 'H', co=0.01);
+          self._data['year_rain']                    = self.getValueFromLoop(loop, 54, 'H', co=0.01);
+          self._data['day_et']                       = self.getValueFromLoop(loop, 56, 'H', co=0.001);
+          self._data['month_et']                     = self.getValueFromLoop(loop, 58, 'H', co=0.01);
+          self._data['year_et']                      = self.getValueFromLoop(loop, 60, 'H', co=0.01);
+          self._data['transmitter_battery_status']   = self.getValueFromLoop(loop, 86, 'B');
+          self._data['console_battery_voltage']      = self.getValueFromLoop(loop, 87, 'H', co=0.005859);
         
-        self._serial.write("LOOP 1\n\r");
-        
-        time.sleep(0.1);
-        
-        packet = self._serial.read(100);
-        
-        if (packet == None):
-          pr.Wrn("DWS: Failed to read packet");
-          return None;
-        
-        # Trim off ACK
-        loop = packet[1:];
-        data = dict();
-        
-        data['barometer']                    = self.getValueFromLoop(loop, 7, 'h', co=0.001);
-        data['inside_temperature']           = self.FtoC(self.getValueFromLoop(loop, 9, 'h', co=0.1), 5);
-        data['inside_humidity']              = self.getValueFromLoop(loop, 11, 'B', co=0.01);
-        data['outside_temperature']          = self.FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1), 5);
-        data['wind_speed']                   = self.getValueFromLoop(loop, 14, 'B');
-        data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B');
-        data['wind_direction']               = self.getValueFromLoop(loop, 16, 'H');
-        data['outside_humidity']             = self.getValueFromLoop(loop, 33, 'B', co=0.01);
-        data['rain_rate']                    = self.getValueFromLoop(loop, 41, 'H');
-        data['uv']                           = self.getValueFromLoop(loop, 43, 'B');
-        data['solar_radiation']              = self.getValueFromLoop(loop, 44, 'H');
-        data['storm_rain']                   = self.getValueFromLoop(loop, 46, 'H', co=0.01);
-        data['day_rain']                     = self.getValueFromLoop(loop, 50, 'H', co=0.01);
-        data['month_rain']                   = self.getValueFromLoop(loop, 52, 'H', co=0.01);
-        data['year_rain']                    = self.getValueFromLoop(loop, 54, 'H', co=0.01);
-        data['day_et']                       = self.getValueFromLoop(loop, 56, 'H', co=0.001);
-        data['month_et']                     = self.getValueFromLoop(loop, 58, 'H', co=0.01);
-        data['year_et']                      = self.getValueFromLoop(loop, 60, 'H', co=0.01);
-        data['transmitter_battery_status']   = self.getValueFromLoop(loop, 86, 'B');
-        data['console_battery_voltage']      = self.getValueFromLoop(loop, 87, 'H', co=0.005859);
-        
-        return data;
+        pr.Dbg("DWS: Returning data");
+        return self._data;
         
       # Failed to read from sensor
       pr.Wrn("DWS: Failed to connect to serial");
