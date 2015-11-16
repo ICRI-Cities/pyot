@@ -77,7 +77,7 @@ class DeltaT_BF5(peripheral.Peripheral):
             
           self._data = dict();
           self._data['total'] = vals[0];
-          self._data['deffuse'] = vals[1];
+          self._data['diffuse'] = vals[1];
           
           self._lastRead = time.time();
         
