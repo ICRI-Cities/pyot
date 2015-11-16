@@ -68,7 +68,7 @@ class DeltaT_BF5(peripheral.Peripheral):
           st = packet[1:-1];
           vals = []
           while (st.find(",") != -1):
-            vals.append(float(st[:st.find(",")]);
+            vals.append(float(st[:st.find(",")]));
             st = st[(st.find(",") + 1):];
             
           if (len(vals) != 2):
