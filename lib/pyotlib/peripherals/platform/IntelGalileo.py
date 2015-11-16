@@ -131,7 +131,7 @@ class GalileoPlatform(peripheral.Peripheral):
       # Need to create serial object here to deal with params
       try:
         # If the pins, need to setup the muxes to select the UART for pins 0,1
-        if ([0, 1] in [self.pins.getPins()]):
+        if ([0, 1] in [self.pins.getPins(self)]):
           mraa.Uart(0);
         self._uart = serial.Serial(params['port'], 
                                    baudrate=serialParams['baudrate'], 
