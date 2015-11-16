@@ -137,6 +137,7 @@ class GalileoPlatform(peripheral.Peripheral):
                                    baudrate=serialParams['baudrate'], 
                                    timeout=serialParams['timeout']);
       except:
+        pr.Err("UART: Failed to create serial object with params %s" % str(params));
         return False;
 
       return True;
