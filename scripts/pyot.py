@@ -278,20 +278,21 @@ def main(argv):
   # Get the timer, using either system time or a specific chronometer
   timer = setupTimer(config);
   
-  # Create producer and consumer threads
-  proThread = threading.Thread(target=proTask, args=(config, chan, timer));
-  conThread = threading.Thread(target=conTask, args=(config, chan));
-  proThread.daemon = True;
-  conThread.daemon = True;
   
   pr.Msg("Starting threads...");
   
   while (True):
     if (not(proThread.isAlive())):
+      # Create producer thread
       pr.Dbg("Producer thread is dead, reviving...");
+      proThread = threading.Thread(target=proTask, args=(config, chan, timer));
+      proThread.daemon = True;
       proThread.start();
     if (not(conThread.isAlive())):
+      # Create consumer thread
       pr.Dbg("Consumer thread is dead, reviving...");
+      conThread = threading.Thread(target=conTask, args=(config, chan));
+      conThread.daemon = True;
       conThread.start();
     time.sleep(config['threadRestartRate']);
     
