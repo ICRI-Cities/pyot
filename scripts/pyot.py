@@ -285,7 +285,7 @@ def main(argv):
   pr.Msg("Starting threads...");
   
   while (True):
-    if ((proThead == None) or (not(proThread.isAlive()))):
+    if ((proThread == None) or (not(proThread.isAlive()))):
       # Create producer thread
       pr.Dbg("Producer thread is dead, reviving...");
       proThread = threading.Thread(target=proTask, args=(config, chan, timer));
