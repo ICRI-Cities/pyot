@@ -11,6 +11,7 @@ import json
 import time
 import Queue
 import getopt
+import thread
 import threading
 
 from pyotlib import *
@@ -66,11 +67,17 @@ def proTask(config, chan, timer):
       sensors.append({'name': sen['name'], 
                       'sensor': sensor, 
                       'numSamples': sen['numSamples'], 
-                      'timeBetweenSamples': sen['timeBetweenSamples']});
+                      'timeBetweenSamples': sen['timeBetweenSamples'],
+                      'failCount': 0});
       
   if (len(sensors) == 0):
     pr.Err("No sensor paths in configuration are valid!");
   sleepTime = config['sensorSampleRate'];
+  
+  if ("maxReadingFailCount" in config):
+    maxFail = config['maxReadingFailCount'];
+  else:
+    maxFail = 5;
   
   pr.Dbg("Starting main loop of producer thread");
   
@@ -80,6 +87,10 @@ def proTask(config, chan, timer):
     chan.lock();
     
     for s in sensors:
+      if (s['failCount'] >= maxFail):
+        pr.Err("Failed to read from sensor %s more than %d times in a row, exiting..." % (s['name'], maxFail));
+        thread.interrupt_main();
+    
       pr.Dbg("Reading from sensor '%s'" % s['sensor'].fullname());
       samples = [];
       
@@ -94,11 +105,13 @@ def proTask(config, chan, timer):
       if (len(samples) == 0):
         pr.Wrn("Read no valid values from sensor!");
         val = None;
+        s['failCount'] += 1;
       else:
         if ((len(samples) % 2) == 0):
           val = (samples[len(samples) / 2] + samples[(len(samples) - 1) / 2]) / 2;
         else:
           val = samples[len(samples) / 2];
+        s['failCount'] = 0;
         
       ts = timer();
       
