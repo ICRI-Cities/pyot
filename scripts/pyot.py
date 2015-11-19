@@ -6,12 +6,12 @@
 # 09-10-2015
 #
 
+import os
 import sys
 import json
 import time
 import Queue
 import getopt
-import thread
 import threading
 
 from pyotlib import *
@@ -89,7 +89,7 @@ def proTask(config, chan, timer):
     for s in sensors:
       if (s['failCount'] >= maxFail):
         pr.Err("Failed to read from sensor %s more than %d times in a row, exiting..." % (s['name'], maxFail));
-        sys.exit(-10);
+        os.kill(os.getpid());
     
       pr.Dbg("Reading from sensor '%s'" % s['sensor'].fullname());
       samples = [];
