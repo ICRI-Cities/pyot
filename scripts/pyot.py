@@ -89,7 +89,7 @@ def proTask(config, chan, timer):
     for s in sensors:
       if (s['failCount'] >= maxFail):
         pr.Err("Failed to read from sensor %s more than %d times in a row, exiting..." % (s['name'], maxFail));
-        thread.interrupt_main();
+        sys.exit(-10);
     
       pr.Dbg("Reading from sensor '%s'" % s['sensor'].fullname());
       samples = [];
@@ -103,7 +103,7 @@ def proTask(config, chan, timer):
         
       samples.sort();
       if (len(samples) == 0):
-        pr.Wrn("Read no valid values from sensor!");
+        pr.Wrn("Read no valid values from sensor, attempt %d!" % s['failCount']);
         val = None;
         s['failCount'] += 1;
       else:
