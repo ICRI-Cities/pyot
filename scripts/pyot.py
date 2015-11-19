@@ -278,17 +278,20 @@ def main(argv):
   # Get the timer, using either system time or a specific chronometer
   timer = setupTimer(config);
   
+  # Make fake threads
+  proThread = None;
+  conThread = None;
   
   pr.Msg("Starting threads...");
   
   while (True):
-    if (not(proThread.isAlive())):
+    if ((proThead == None) or (not(proThread.isAlive()))):
       # Create producer thread
       pr.Dbg("Producer thread is dead, reviving...");
       proThread = threading.Thread(target=proTask, args=(config, chan, timer));
       proThread.daemon = True;
       proThread.start();
-    if (not(conThread.isAlive())):
+    if ((conThread == None) or (not(conThread.isAlive()))):
       # Create consumer thread
       pr.Dbg("Consumer thread is dead, reviving...");
       conThread = threading.Thread(target=conTask, args=(config, chan));
