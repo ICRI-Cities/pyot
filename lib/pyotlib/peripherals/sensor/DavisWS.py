@@ -103,7 +103,7 @@ class DavisWS(peripheral.Peripheral):
             
           self._data = dict();
           
-          self._data['barometer']                    = self.getValueFromLoop(loop, 7, 'h', co=0.001);
+          self._data['barometer']                    = self.getValueFromLoop(loop, 7, 'h', co=0.00254);
           self._data['inside_temperature']           = self.FtoC(self.getValueFromLoop(loop, 9, 'h', co=0.1), 5);
           self._data['inside_humidity']              = self.getValueFromLoop(loop, 11, 'B', co=0.01);
           self._data['outside_temperature']          = self.FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1), 5);
@@ -111,16 +111,16 @@ class DavisWS(peripheral.Peripheral):
           self._data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B');
           self._data['wind_direction']               = self.getValueFromLoop(loop, 16, 'H');
           self._data['outside_humidity']             = self.getValueFromLoop(loop, 33, 'B', co=0.01);
-          self._data['rain_rate']                    = self.getValueFromLoop(loop, 41, 'H');
+          self._data['rain_rate']                    = self.getValueFromLoop(loop, 41, 'H', co=0.05);
           self._data['uv']                           = self.getValueFromLoop(loop, 43, 'B');
           self._data['solar_radiation']              = self.getValueFromLoop(loop, 44, 'H');
-          self._data['storm_rain']                   = self.getValueFromLoop(loop, 46, 'H', co=0.01);
-          self._data['day_rain']                     = self.getValueFromLoop(loop, 50, 'H', co=0.01);
-          self._data['month_rain']                   = self.getValueFromLoop(loop, 52, 'H', co=0.01);
-          self._data['year_rain']                    = self.getValueFromLoop(loop, 54, 'H', co=0.01);
-          self._data['day_et']                       = self.getValueFromLoop(loop, 56, 'H', co=0.001);
-          self._data['month_et']                     = self.getValueFromLoop(loop, 58, 'H', co=0.01);
-          self._data['year_et']                      = self.getValueFromLoop(loop, 60, 'H', co=0.01);
+          self._data['storm_rain']                   = self.getValueFromLoop(loop, 46, 'H', co=0.0254);
+          self._data['day_rain']                     = self.getValueFromLoop(loop, 50, 'H', co=0.05);
+          self._data['month_rain']                   = self.getValueFromLoop(loop, 52, 'H', co=0.05);
+          self._data['year_rain']                    = self.getValueFromLoop(loop, 54, 'H', co=0.05);
+          self._data['day_et']                       = self.getValueFromLoop(loop, 56, 'H', co=0.00254);
+          self._data['month_et']                     = self.getValueFromLoop(loop, 58, 'H', co=0.0254);
+          self._data['year_et']                      = self.getValueFromLoop(loop, 60, 'H', co=0.0254);
           self._data['transmitter_battery_status']   = self.getValueFromLoop(loop, 86, 'B');
           self._data['console_battery_voltage']      = self.getValueFromLoop(loop, 87, 'H', co=0.005859);
           
