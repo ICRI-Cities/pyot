@@ -76,5 +76,5 @@ while (True):
     pr.Wrn("Time for daily reboot!");
     reboot();
     
-  pr.Msg("All is well, sleeping for 120 seconds...");
+  pr.Msg("All is well, sleeping for %d seconds..." % sleepTime);
   time.sleep(sleepTime);
