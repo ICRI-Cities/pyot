@@ -36,6 +36,21 @@ def reboot():
   
 pr.Msg("Watchdog script is starting up!");
   
+# Parse arguments
+try:
+  (options, args) = getopt.getopt(argv, 'dt:', ['time=', 'debug']);
+except:
+  pr.Err("Bad commandline options");
+  sys.exit(-1);
+
+sleepTime = 3600;
+
+for (o, a) in options:
+  if (o in ("-t", "--time")):
+    sleepTime = int(a);
+  elif (o in ("-d", "--debug")):
+    pr.debug = True;
+  
 startTime = time.time();
 
 while (True):
@@ -58,4 +73,4 @@ while (True):
     reboot();
     
   pr.Msg("All is well, sleeping for 120 seconds...");
-  time.sleep(120);
+  time.sleep(sleepTime);

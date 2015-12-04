@@ -176,15 +176,30 @@ class DavisWS(peripheral.Peripheral):
         
       return (crc == 0);
     
-    # Parses out data from the packet
+    # Parses out data from the packet, return None if read all ones
     def getValueFromLoop(self, loop, offset, valType, co=1, off=0):
-      return round(((struct.unpack_from(valType, loop, offset)[0] * co) + off), 5);
+      val = struct.unpack_from(valType, loop, offset)[0];
+      if (((valTpe in 'hH') and self.allOnes(val, 16)) or ((valType in 'bB') and self.allOnes(val, 8))):
+        pr.Dbg("DWS: Failed to read a valid value from the remote station (console returned all ones!)");
+        return None;
+      return round(((val * co) + off), 5);
+      
+    # Determine is value is all ones
+    def allOnes(self, v, l):
+      for x in xrange(l):
+        if (((v >> x) & 0x1) == 0):
+          return False;
+      return True;
 
     # Temperature conversion functions
     def FtoC(self, temp, precision):
+      if (temp == None):
+        return None;
       return round(((temp - 32.0) * 5.0 / 9.0), precision);
   
     def CtoF(self, temp, precision):
+      if (temp == None):
+        return None;
       return round(((temp * 9.0 / 5.0) + 32.0), precision);
     
   class Sensor(peripheral.Sensor):

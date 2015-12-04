@@ -72,7 +72,7 @@ class DeltaT_BF5(peripheral.Peripheral):
             st = st[(st.find(",") + 1):];
             
           if (len(vals) != 2):
-            pr.Wrn("VF5: Failed to parse packet");
+            pr.Wrn("BF5: Failed to parse packet");
             return None;
             
           self._data = dict();
