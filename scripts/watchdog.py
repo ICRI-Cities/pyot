@@ -50,6 +50,7 @@ except:
 sleepTime = 3600;
 
 for (o, a) in options:
+  pr.Msg("Processing options %s %s" % (str(o), str(a)));
   if (o in ("-t", "--time")):
     sleepTime = int(a);
   elif (o in ("-d", "--debug")):
