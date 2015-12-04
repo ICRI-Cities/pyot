@@ -176,20 +176,13 @@ class DavisWS(peripheral.Peripheral):
         
       return (crc == 0);
     
-    # Parses out data from the packet, return None if read all ones
+    # Parses out data from the packet, return None if read max val
     def getValueFromLoop(self, loop, offset, valType, co=1, off=0):
       val = struct.unpack_from(valType, loop, offset)[0];
-      if (((valType in 'hH') and self.allOnes(val, 16)) or ((valType in 'bB') and self.allOnes(val, 8))):
+      if (((valType in "hH") and (val == 32767)) or ((valType in 'bB') and (val == 255))):
         pr.Dbg("DWS: Failed to read a valid value from the remote station (console returned all ones!)");
         return None;
       return round(((val * co) + off), 5);
-      
-    # Determine is value is all ones
-    def allOnes(self, v, l):
-      for x in xrange(l):
-        if (((v >> x) & 0x1) == 0):
-          return False;
-      return True;
 
     # Temperature conversion functions
     def FtoC(self, temp, precision):
