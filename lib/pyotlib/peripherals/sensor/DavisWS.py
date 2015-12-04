@@ -179,7 +179,7 @@ class DavisWS(peripheral.Peripheral):
     # Parses out data from the packet, return None if read all ones
     def getValueFromLoop(self, loop, offset, valType, co=1, off=0):
       val = struct.unpack_from(valType, loop, offset)[0];
-      if (((valTpe in 'hH') and self.allOnes(val, 16)) or ((valType in 'bB') and self.allOnes(val, 8))):
+      if (((valType in 'hH') and self.allOnes(val, 16)) or ((valType in 'bB') and self.allOnes(val, 8))):
         pr.Dbg("DWS: Failed to read a valid value from the remote station (console returned all ones!)");
         return None;
       return round(((val * co) + off), 5);
