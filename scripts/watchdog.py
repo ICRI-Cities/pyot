@@ -11,6 +11,7 @@ import sys
 import time
 import getopt
 import datetime
+import traceback
 import pyotlib.printlib as pr
 
 def reboot():
@@ -42,6 +43,7 @@ pr.Msg("Watchdog script is starting up!");
 try:
   (options, args) = getopt.getopt(argv, 'dt:', ['time=', 'debug']);
 except:
+  traceback.print_exc();
   pr.Err("Bad commandline options");
   sys.exit(-1);
 
