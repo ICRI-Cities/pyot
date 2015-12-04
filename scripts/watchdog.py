@@ -42,6 +42,7 @@ pr.Msg("Watchdog script is starting up!");
 # Parse arguments
 try:
   (options, args) = getopt.getopt(sys.argv, 'dt:', ['time=', 'debug']);
+  pr.Msg(str(options));
 except:
   traceback.print_exc();
   pr.Err("Bad commandline options");
