@@ -107,8 +107,8 @@ class DavisWS(peripheral.Peripheral):
           self._data['inside_temperature']           = self.FtoC(self.getValueFromLoop(loop, 9, 'h', co=0.1), 5);
           self._data['inside_humidity']              = self.getValueFromLoop(loop, 11, 'B', co=0.01);
           self._data['outside_temperature']          = self.FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1), 5);
-          self._data['wind_speed']                   = self.getValueFromLoop(loop, 14, 'B');
-          self._data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B');
+          self._data['wind_speed']                   = self.getValueFromLoop(loop, 14, 'B', co=1.61);
+          self._data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B', co=1.61);
           self._data['wind_direction']               = self.getValueFromLoop(loop, 16, 'H');
           self._data['outside_humidity']             = self.getValueFromLoop(loop, 33, 'B', co=0.01);
           self._data['rain_rate']                    = self.getValueFromLoop(loop, 41, 'H', co=0.05);
