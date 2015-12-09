@@ -1,0 +1,252 @@
+###############################################################################
+# Intel Device Setup                                                          #
+# Michael Rosen                                                               #
+# mrrosen                                                                     #
+# 27-08-2015                                                                  #
+###############################################################################
+
+How to setup the Intel Edison or Galileo to use IoT Analytics (Discovery Peak) 
+for use in remote sensor applications
+
+===============================================================================
+Step 1: Update Linux Image and Setup System
+===============================================================================
+
+FOR EDISON:
+ 1e. Download the latest Edison installer from the following page and install
+    the latest Edison toolchain and firmware onto your Edison:
+    
+    https://software.intel.com/en-us/iot/hardware/edison/downloads
+    
+    The installer will automatically want to flash any connected Edisons with
+    the latest firmware; make sure you allow it to do so.
+
+ 2e. Once this completes, connect to the Edison and run the configure_edison 
+    script and set up the Edison; note that the hostname and password should be
+    consistent across all your nodes so they are easy to identify and login to:
+
+    % configure_edison --setup
+
+    You should confirm a successful internet connection with:
+
+    % ping www.intel.com
+
+FOR GALILEO:
+ 1g. Follow the instructions here to install the latest image of Yocto on an SD
+    card:
+    
+    https://software.intel.com/en-us/creating-bootable-micro-sd-card-for-intel-galileo-board
+    
+ 2g. Connect to the Galileo and set the hostname and password to something
+    consistent accross all nodes:
+    
+    % echo <hostname> > /etc/hostname
+    % passwd
+
+ 3g. Connect the Galileo to WiFi, follow the steps here:
+ 
+    https://software.intel.com/en-us/blogs/2014/04/25/wireless-galileo-on-yocto-linux-iot-devkit-image
+    
+ 4g. Some sensors (such as the Davis Weather station) require a serial driver
+    that is not part of the default image. As such, you must install it 
+    manually. First download the driver file:
+    
+    % curl -L "https://github.com/ICRI-Cities/galileo-serial-driver/raw/master/kernel-module-cp210x_3.8-r0_quark.ipk" > driver.ipk
+
+    
+    Then, run the following command to install the driver:
+    
+    % opkg install driver.ipk
+    
+ INSTALLING NEEDED PYTHON MODULES:
+    Now that the device is setup and configured, you need to install a few 
+    python modules to make everything work. The easiest way to do with is with 
+    pip, but first you need to install it. Execute the following commands to do
+    so:
+    
+    % curl -L "https://bootstrap.pypa.io/get-pip.py" > get-pip.py
+    % python get-pip.py
+
+    Once pip is installed use it to install the serial and requests modules:
+
+    % pip install pyserial
+    % pip install requests
+    % pip install paho-mqtt
+    
+    Note that some of these might say "Failed building wheel"; just ignore 
+    these.
+
+===============================================================================
+Step 2: Configuring and Connecting iotkit-agent
+===============================================================================
+
+ 1. In order to connect to the IoT Analytics cloud, you need to set up the
+    local agent. First, enable the agent:
+
+    % systemctl enable iotkit-agent
+
+ 2. Change the device name to match the host name you gave the device in Step 
+    1.2e/1.2g:
+
+    % iotkit-admin set-device-name <hostname>
+    
+ 3. Change the device ID and gateway ID to something unique; they MUST match:
+ 
+   % iotkit-admin set-device-id <Some Unique Name>
+   % iotkit-admin set-gateway-id <Same Unique Name>
+
+ 4. Go into the IoT Analytics website ( https://enableiot.com/ ) and log into
+    the account you want to add the sensor to. Once on the dashboard home page,
+    open the side options (top left icon) and go to Account. Here, request a
+    new Activation Code by clicking the refresh icon next to the Activation 
+    Code field. Click the eye icon to view the new code.
+
+ 5. Using the code from Step 2.4, register the device with the IoT Analytics
+    platform with the following command:
+
+    % iotkit-admin activate <Activation Code>
+
+    If the activation fails, try running the following commands:
+
+    % iotkit-admin initialize
+    % iotkit-admin activate <Activation Code>
+
+    Verify activation by checking the Devices page in the IoT Analytics 
+    dashboard.
+
+ 6. Switch the protocol use MQTT to enable both sensors and actuators:
+
+    % iotkit-admin protocol mqtt
+
+ 7. Now, start up the iotkit-agent with:
+
+    % systemctl start iotkit-agent
+
+    Confirm the agent successful started (the output being like that 
+    below):
+
+    % systemctl status iotkit-agent -l
+
+      iotkit-agent.service - iotkit-agent
+       Loaded: loaded (/lib/systemd/system/iotkit-agent.service; enabled)
+       Active: active (running) since Thu 2015-08-27 13:38:30 UTC; 24s ago
+     Main PID: 406 (node)
+       CGroup: /system.slice/iotkit-agent.service
+               └─406 node /usr/bin/iotkit-agent
+
+    Aug 27 13:38:45 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:45.854Z - info: Device has already been activated. Updating ...
+    Aug 27 13:38:45 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:45.962Z - info: Trying to disconnect
+    Aug 27 13:38:46 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:45.995Z - info: Updating metadata...
+    Aug 27 13:38:46 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:46.018Z - info: Trying with Secure Connection tobroker.us.enableiot.com:8883
+    Aug 27 13:38:46 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:46.241Z - info: Waiting for MQTTConnector to connect # 1
+    Aug 27 13:38:46 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:46.261Z - info: Metadata updated.
+    Aug 27 13:38:47 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:47.777Z - info: MQTTConnector: Connection successful to broker.us.enableiot.com:8883
+    Aug 27 13:38:48 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:48.044Z - info: Starting listeners...
+    Aug 27 13:38:48 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:48.137Z - info: TCP listener started on port:   7070
+    Aug 27 13:38:48 ICRI_003 iotkit-agent[406]: 2015-08-27T13:38:48.188Z - info: UDP listener started on port:  41234
+
+ NOTE: 
+    Once you are done using the iotkit-admin, you should disable the 
+    iotkit-agent. If you do not, any attributes you add to the device will be 
+    removed whenever the iotkit-agent periodically update the hardware and 
+    firmware attributes. Run the following commands to do so:
+       
+    % systemctl stop iotkit-agent
+    % systemctl disable iotkit-agent
+
+ADD NEW COMPONET/MEASUREMENT TO DEVICE:
+ Before you can send data to IoT Analytics, you need to set up a new component.
+ These components are things like temperature readings and humidity readings
+ (You can also make your own components via the IoT Analytics dashboard:
+ Account -> Catalog; Note that you must restart the iotkit-agent any time you
+ add to your catalog, with: 
+
+   % systemctl restart iotkit-agent
+
+ Once restarted, new catelog items will be available to the device).
+
+ In order to add a new component, you need to connect to your device via serial
+ or SSH. Once in, use the following command to add a component:
+
+   % iotkit-admin register <Component Name> <Catalog Id>
+
+ Where the Component Name is the name you wish to give the new component (must 
+ be unique for that device, but can be shared between devices) and Caatalog Id
+ is the type of component that component is. You can list the various available
+ component types with:
+
+   % iotkit-admin catalog
+
+ To view the currently registered components, use:
+
+   % iotkit-admin components
+
+ADD A NEW COMPONENT TYPE TO CATALOG:
+ As the IoT Analytics platform only starts off with a limited set of component
+ types, it is useful to be able to add more. This can be done through the IoT
+ Analytics dashboard:
+
+  Go to Account->Catalog
+
+  At the bottom, click Add a New Catalog Item
+
+  Fill in the form to match the kind of data you wish to capture
+
+  Once the catalog item is added, restart the iotkit-agent on all your devices
+  in order to update their local catalogs with the new item:
+
+    % systemctl restart iotkit-agent
+
+===============================================================================
+Step 3: Getting the PyoT Repo
+===============================================================================
+
+ 1. In the /home/root directory of the device, clone the PyoT repository from
+    github:
+    
+    % git clone https://github.com/ICRI-Cities/pyot.git pyot
+    
+ 2. In the util directory of the PyoT repo, there is a script called 
+    "iotnode.sh", copy this file into /etc/init.d/ directory and make the run
+    at start up:
+    
+    % cd pyot/util
+    % cp iotnode.sh /etc/init.d/.
+    % cd /etc/init.d/
+    % update-rc.d iotnode.sh defaults
+    
+ 3. To allow PyoT and other python scripts to use the pyotlib modules, you must
+    add a file to /usr/lib/python2.7/site-packages to add the pyotlib directory 
+    to python's search path:
+    
+    % vi /usr/lib/python2.7/site-packages/pyotlib.pth
+    
+    Add the path to the PyoT repo's lib directory in this file on a single
+    line:
+    
+    /home/root/pyot/lib
+    
+ 3. In the config directory of the PyoT repo, configure the platform.json file
+    to reflect the architecture of the node as well as list out any sensors to
+    collect data from and IoT backends to send collected data to. You can refer
+    to the github repo's README.md file (best viewed on github) to get an 
+    outline of the fields of this file and how PyoT works.
+    
+    For a rough outline of things that would need to be changed from the 
+    example file, use the below:
+    
+    - The list of sensors in the "sensors" field should be updated
+    - The list of iot backends in the "iot" field might need to be changed
+    - The properties of the IoT peripherals should be changed
+    
+ 4. Once you are satsified with your configuration, reboot the system to run 
+    PyoT:
+    
+    % reboot
+    
+    If the system reboots automatically, its likely something went wrong. Check
+    the logs directory of the PyoT repo for more. Also, you can see the log
+    messages from the PyoT scripts through the system log:
+    
+    % dmesg | tail -n50
+    
