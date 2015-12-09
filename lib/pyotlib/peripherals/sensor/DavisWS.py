@@ -106,12 +106,12 @@ class DavisWS(peripheral.Peripheral):
           self._data['barometer']                    = self.getValueFromLoop(loop, 7, 'h', co=0.0254);
           self._data['inside_temperature']           = self.FtoC(self.getValueFromLoop(loop, 9, 'h', co=0.1), 5);
           self._data['inside_humidity']              = self.getValueFromLoop(loop, 11, 'B', co=0.01);
-          self._data['outside_temperature']          = self.FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1), 5);
-          self._data['wind_speed']                   = self.getValueFromLoop(loop, 14, 'B', co=1.61);
-          self._data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B', co=1.61);
-          self._data['wind_direction']               = self.getValueFromLoop(loop, 16, 'H');
-          self._data['outside_humidity']             = self.getValueFromLoop(loop, 33, 'B', co=0.01);
-          self._data['rain_rate']                    = self.getValueFromLoop(loop, 41, 'H', co=0.05);
+          self._data['outside_temperature']          = self.FtoC(self.getValueFromLoop(loop, 12, 'h', co=0.1, maxVal=32767), 5);
+          self._data['wind_speed']                   = self.getValueFromLoop(loop, 14, 'B', co=1.61, maxVal=255);
+          self._data['10_min_avg_wind_speed']        = self.getValueFromLoop(loop, 15, 'B', co=1.61, maxVal=255);
+          self._data['wind_direction']               = self.getValueFromLoop(loop, 16, 'H', maxVal=32767);
+          self._data['outside_humidity']             = self.getValueFromLoop(loop, 33, 'B', co=0.01, maxVal=255);
+          self._data['rain_rate']                    = self.getValueFromLoop(loop, 41, 'H', co=0.05, maxVal=65535);
           self._data['uv']                           = self.getValueFromLoop(loop, 43, 'B');
           self._data['solar_radiation']              = self.getValueFromLoop(loop, 44, 'H');
           self._data['storm_rain']                   = self.getValueFromLoop(loop, 46, 'H', co=0.254);
@@ -177,9 +177,9 @@ class DavisWS(peripheral.Peripheral):
       return (crc == 0);
     
     # Parses out data from the packet, return None if read max val
-    def getValueFromLoop(self, loop, offset, valType, co=1, off=0):
+    def getValueFromLoop(self, loop, offset, valType, co=1, off=0, maxVal=-1):
       val = struct.unpack_from(valType, loop, offset)[0];
-      if (((valType in "hH") and (val == 32767)) or ((valType in 'bB') and (val == 255))):
+      if ((maxVal != -1) and (val == maxVal)):
         pr.Dbg("DWS: Failed to read a valid value from the remote station (console returned all ones!)");
         return None;
       return round(((val * co) + off), 5);
