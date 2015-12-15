@@ -178,7 +178,7 @@ def conTask(config, chan):
           else:
             pr.Dbg("Failed to send!");
       
-      if (not(reduce(lambda x, y: x & y, item['sent']))):
+      if ((len(item['sent']) > 0) and not(reduce(lambda x, y: x & y, item['sent']))):
         pr.Dbg("Item still needs to send on some comms, putting back in list...");
         chan.put(item);
       else:

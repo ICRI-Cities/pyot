@@ -133,6 +133,7 @@ class GalileoPlatform(peripheral.Peripheral):
         # If the pins, need to setup the muxes to select the UART for pins 0,1
         if ([0, 1] in [self.pins.getPins(self)]):
           mraa.Uart(0);
+          params['port'] = "/dev/ttyS1";
         self._uart = serial.Serial(params['port'], 
                                    baudrate=serialParams['baudrate'], 
                                    timeout=serialParams['timeout']);
@@ -155,6 +156,9 @@ class GalileoPlatform(peripheral.Peripheral):
       self._uart.write(s);
       self._uart.flush();
       return;
+      
+    def emptyInput(self):
+      self._uart.flushInput();
       
   # I2C Class for Galileo (uses mraa to do everything)
   class I2C(interface.I2C):
